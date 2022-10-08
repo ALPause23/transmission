@@ -1,0 +1,3 @@
+[submodule "MCU_lib"]
+	path = MCU_lib
+	url = https://github.com/ALPause23/MCU_lib.git
