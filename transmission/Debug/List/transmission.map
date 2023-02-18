@@ -1,0 +1,37 @@
+RAM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+Symbol_ONE (symbols.h #include-d from MAX7219.c)                                  0x0084       8
+Symbol_TWO (symbols.h #include-d from MAX7219.c)                                  0x008C       8
+Symbol_THREE (symbols.h #include-d from MAX7219.c)                                0x0094       8
+Symbol_FOUR (symbols.h #include-d from MAX7219.c)                                 0x009C       8
+Symbol_FIVE (symbols.h #include-d from MAX7219.c)                                 0x00A4       8
+Symbol_R (symbols.h #include-d from MAX7219.c)                                    0x00AC       8
+Symbol_N (symbols.h #include-d from MAX7219.c)                                    0x00B4       8
+matrix_status_new (transmission.c)                                                0x00BC       1
+matrix_status (transmission.c)                                                    0x00BD       1
+count_delay (transmission.c)                                                      0x00BE       1
+
+EEPROM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                                          Register  Size
+------------------------------------------------------------------------------------------------
+CS_Port                                                                           R3           1
+CS_Pin                                                                            R2           1
+
+FLASH Allocation [words]
+Function                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+initialize_defolt                                                                 0x000B8     38
+main                                                                              0x000DE      8
+InitLed                                                                           0x000E6     24
+SendLed                                                                           0x000FE     12
+SetIntensity                                                                      0x0010A      8
+WriteNum                                                                          0x00112     24
+SPI_CS_Down                                                                       0x0015B      6
+SPI_Init                                                                          0x00161     10
+SPI_SendByte                                                                      0x0016B     12
+Trans_Poll                                                                        0x00194     77
