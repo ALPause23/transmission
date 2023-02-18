@@ -28,6 +28,7 @@
 
 	.DSEG
 ;//#include <symbols.h>
+;#include <setjmp.h>
 ;
 ;typedef enum
 ;{
@@ -59,13 +60,13 @@
 ;//};
 ;
 ;Transmission_State Transmission_Get_EN(void)
-; 0004 002A {
+; 0004 002B {
 
 	.CSEG
 ;PCODE: $0000000A VOL: 0
 ;PCODE: $0000000B VOL: 0
-; 0004 002B 	int i = 0;
-; 0004 002C 	for(i = 0; i <= 5; i++)
+; 0004 002C 	int i = 0;
+; 0004 002D 	for(i = 0; i <= 5; i++)
 ;PCODE: $0000000C VOL: 0
 ;	i -> R16,R17
 ;PCODE: $0000000D VOL: 0
@@ -79,8 +80,8 @@
 ;PCODE: $00000015 VOL: 0
 ;PCODE: $00000016 VOL: 0
 ;PCODE: $00000017 VOL: 0
-; 0004 002D 	{
-; 0004 002E 		if((PINB & (1<<i)) == 0)
+; 0004 002E 	{
+; 0004 002F 		if((PINB & (1<<i)) == 0)
 ;PCODE: $00000018 VOL: 0
 ;PCODE: $00000019 VOL: 0
 ;PCODE: $0000001A VOL: 0
@@ -91,220 +92,533 @@
 ;PCODE: $0000001F VOL: 0
 ;PCODE: $00000020 VOL: 0
 ;PCODE: $00000021 VOL: 0
-; 0004 002F 		{
-; 0004 0030 			return i;
+; 0004 0030 		{
+; 0004 0031 			return i;
 ;PCODE: $00000022 VOL: 0
 ;PCODE: $00000023 VOL: 0
 ;PCODE: $00000024 VOL: 0
-; 0004 0031 		}
-; 0004 0032 	}
+; 0004 0032 		}
+; 0004 0033 	}
 ;PCODE: $00000025 VOL: 0
 ;PCODE: $00000026 VOL: 0
 ;PCODE: $00000027 VOL: 0
 ;PCODE: $00000028 VOL: 0
 ;PCODE: $00000029 VOL: 0
 ;PCODE: $0000002A VOL: 0
-; 0004 0033 	return N;
+; 0004 0034 	return N;
 ;PCODE: $0000002B VOL: 0
 ;PCODE: $0000002C VOL: 0
 ;PCODE: $0000002D VOL: 0
-; 0004 0034 }
+; 0004 0035 }
 ;PCODE: $0000002E VOL: 0
 ;
-;//void Animation(Matrix_Symbols symbol)
-;//{
-;	//uint8_t new_frame[8];
-;	//uint8_t symbol_source[8];
-;	//uint8_t i;
-;	//
-;	//memset(new_frame, 0, 8);
-;	//memcpy(symbol_source, GetSymbols(symbol), 8);
-;	//
-;	//for(i = 0; i < 7; i++)
-;	//{
-;		//memcpy(&new_frame[i], &symbol_source[i], 1);
-;		//WriteSymbol(new_frame);
-;		//delay_ms(800);
-;	//}
-;//}
-;
-;void Trans_Poll(void)
-; 0004 0048 {
+;void Animation_HorizRows(Matrix_Symbols symbol)
+; 0004 0038 {
 ;PCODE: $0000002F VOL: 0
 ;PCODE: $00000030 VOL: 0
-; 0004 0049 	static Transmission_State matrix_status_new = none;
-
-	.DSEG
-
-	.CSEG
-; 0004 004A 	static Transmission_State matrix_status = none;
-
-	.DSEG
-
-	.CSEG
-; 0004 004B 	static uint8_t count_delay = 0;
-; 0004 004C 
-; 0004 004D 	matrix_status_new = Transmission_Get_EN();
+; 0004 0039 	uint8_t new_frame[8];
+; 0004 003A 	uint8_t symbol_source[8];
+; 0004 003B 	uint8_t i;
+; 0004 003C 
+; 0004 003D 	memset(new_frame, 0, 8);
 ;PCODE: $00000031 VOL: 0
 ;PCODE: $00000032 VOL: 0
-; 0004 004E 
-; 0004 004F 	if(matrix_status != matrix_status_new)
 ;PCODE: $00000033 VOL: 0
+;	symbol -> R16
+;	new_frame -> Y+10
+;	symbol_source -> Y+2
+;	i -> R17
 ;PCODE: $00000034 VOL: 0
 ;PCODE: $00000035 VOL: 0
 ;PCODE: $00000036 VOL: 0
-; 0004 0050 	{
-; 0004 0051 		count_delay++;
 ;PCODE: $00000037 VOL: 0
 ;PCODE: $00000038 VOL: 0
 ;PCODE: $00000039 VOL: 0
-; 0004 0052 	}
-; 0004 0053 
-; 0004 0054 	if(count_delay == 6)
+; 0004 003E 	memcpy(symbol_source, GetSymbols(symbol), 8);
 ;PCODE: $0000003A VOL: 0
 ;PCODE: $0000003B VOL: 0
 ;PCODE: $0000003C VOL: 0
 ;PCODE: $0000003D VOL: 0
-; 0004 0055 	{
-; 0004 0056 		switch(matrix_status_new)
 ;PCODE: $0000003E VOL: 0
 ;PCODE: $0000003F VOL: 0
-; 0004 0057 		{
-; 0004 0058 			case R:
 ;PCODE: $00000040 VOL: 0
+; 0004 003F 
+; 0004 0040 	for(i = 0; i < 7; i++)
 ;PCODE: $00000041 VOL: 0
-; 0004 0059 			{
-; 0004 005A 				WriteNum(SYMBOL_EMTY);
 ;PCODE: $00000042 VOL: 0
 ;PCODE: $00000043 VOL: 0
-; 0004 005B 				delay_ms(5);
 ;PCODE: $00000044 VOL: 0
 ;PCODE: $00000045 VOL: 0
 ;PCODE: $00000046 VOL: 0
-; 0004 005C 				//Animation(SYMBOL_R);
-; 0004 005D 				WriteNum(SYMBOL_R);
 ;PCODE: $00000047 VOL: 0
 ;PCODE: $00000048 VOL: 0
-; 0004 005E 				break;
 ;PCODE: $00000049 VOL: 0
-; 0004 005F 			}
-; 0004 0060 			case ONE:
+; 0004 0041 	{
+; 0004 0042 		memcpy(new_frame, symbol_source, i + 1);
 ;PCODE: $0000004A VOL: 0
 ;PCODE: $0000004B VOL: 0
 ;PCODE: $0000004C VOL: 0
-; 0004 0061 			{
-; 0004 0062 				WriteNum(SYMBOL_EMTY);
 ;PCODE: $0000004D VOL: 0
 ;PCODE: $0000004E VOL: 0
-; 0004 0063 				delay_ms(5);
 ;PCODE: $0000004F VOL: 0
 ;PCODE: $00000050 VOL: 0
+; 0004 0043 		WriteSymbol(new_frame);
 ;PCODE: $00000051 VOL: 0
-; 0004 0064 				WriteNum(SYMBOL_ONE);
 ;PCODE: $00000052 VOL: 0
+; 0004 0044 		delay_ms(50);
 ;PCODE: $00000053 VOL: 0
-; 0004 0065 				break;
 ;PCODE: $00000054 VOL: 0
-; 0004 0066 			}
-; 0004 0067 			case TWO:
 ;PCODE: $00000055 VOL: 0
+; 0004 0045 	}
 ;PCODE: $00000056 VOL: 0
 ;PCODE: $00000057 VOL: 0
-; 0004 0068 			{
-; 0004 0069 				WriteNum(SYMBOL_EMTY);
 ;PCODE: $00000058 VOL: 0
 ;PCODE: $00000059 VOL: 0
-; 0004 006A 				delay_ms(5);
 ;PCODE: $0000005A VOL: 0
+; 0004 0046 }
 ;PCODE: $0000005B VOL: 0
 ;PCODE: $0000005C VOL: 0
-; 0004 006B 				WriteNum(SYMBOL_TWO);
 ;PCODE: $0000005D VOL: 0
 ;PCODE: $0000005E VOL: 0
-; 0004 006C 				break;
+;
+;void Animation_ProgressBar(Matrix_Symbols symbol)
+; 0004 0049 {
 ;PCODE: $0000005F VOL: 0
-; 0004 006D 			}
-; 0004 006E 			case THREE:
 ;PCODE: $00000060 VOL: 0
+; 0004 004A 	uint8_t new_frame[8];
+; 0004 004B 	uint8_t symbol_source[8];
+; 0004 004C 
+; 0004 004D 
+; 0004 004E 	memcpy(symbol_source, GetSymbols(symbol), 8);
 ;PCODE: $00000061 VOL: 0
 ;PCODE: $00000062 VOL: 0
-; 0004 006F 			{
-; 0004 0070 				WriteNum(SYMBOL_EMTY);
 ;PCODE: $00000063 VOL: 0
+;	symbol -> R17
+;	new_frame -> Y+9
+;	symbol_source -> Y+1
 ;PCODE: $00000064 VOL: 0
-; 0004 0071 				delay_ms(5);
 ;PCODE: $00000065 VOL: 0
 ;PCODE: $00000066 VOL: 0
 ;PCODE: $00000067 VOL: 0
-; 0004 0072 				WriteNum(SYMBOL_THREE);
 ;PCODE: $00000068 VOL: 0
 ;PCODE: $00000069 VOL: 0
-; 0004 0073 				break;
 ;PCODE: $0000006A VOL: 0
-; 0004 0074 			}
-; 0004 0075 			case FOUR:
+; 0004 004F 
+; 0004 0050 
+; 0004 0051 
+; 0004 0052 	WriteSymbol(new_frame);
 ;PCODE: $0000006B VOL: 0
 ;PCODE: $0000006C VOL: 0
+; 0004 0053 }
 ;PCODE: $0000006D VOL: 0
-; 0004 0076 			{
-; 0004 0077 				WriteNum(SYMBOL_EMTY);
 ;PCODE: $0000006E VOL: 0
 ;PCODE: $0000006F VOL: 0
-; 0004 0078 				delay_ms(5);
 ;PCODE: $00000070 VOL: 0
 ;PCODE: $00000071 VOL: 0
+;
+;void Animation_Cursor(Matrix_Symbols symbol)
+; 0004 0056 {
 ;PCODE: $00000072 VOL: 0
-; 0004 0079 				WriteNum(SYMBOL_FOUR);
 ;PCODE: $00000073 VOL: 0
+; 0004 0057 	uint8_t new_frame[8];
+; 0004 0058 	uint8_t symbol_source[8];
+; 0004 0059 	uint8_t row, column, mask = 0x80;
+; 0004 005A 	uint8_t used_mask = 0UL;
+; 0004 005B 
+; 0004 005C 
+; 0004 005D 	memset(new_frame, 0, 8);
 ;PCODE: $00000074 VOL: 0
-; 0004 007A 				break;
 ;PCODE: $00000075 VOL: 0
-; 0004 007B 			}
-; 0004 007C 			case FIVE:
 ;PCODE: $00000076 VOL: 0
+;	symbol -> R21
+;	new_frame -> Y+14
+;	symbol_source -> Y+6
+;	row -> R17
+;	column -> R16
+;	mask -> R19
+;	used_mask -> R18
 ;PCODE: $00000077 VOL: 0
 ;PCODE: $00000078 VOL: 0
-; 0004 007D 			{
-; 0004 007E 				WriteNum(SYMBOL_EMTY);
 ;PCODE: $00000079 VOL: 0
 ;PCODE: $0000007A VOL: 0
-; 0004 007F 				delay_ms(5);
 ;PCODE: $0000007B VOL: 0
 ;PCODE: $0000007C VOL: 0
 ;PCODE: $0000007D VOL: 0
-; 0004 0080 				WriteNum(SYMBOL_FIVE);
 ;PCODE: $0000007E VOL: 0
 ;PCODE: $0000007F VOL: 0
-; 0004 0081 				break;
 ;PCODE: $00000080 VOL: 0
-; 0004 0082 			}
-; 0004 0083 			default:
+; 0004 005E 	memcpy(symbol_source, GetSymbols(symbol), 8);
 ;PCODE: $00000081 VOL: 0
-; 0004 0084 			{
-; 0004 0085 				WriteNum(SYMBOL_EMTY);
 ;PCODE: $00000082 VOL: 0
 ;PCODE: $00000083 VOL: 0
-; 0004 0086 				delay_ms(5);
 ;PCODE: $00000084 VOL: 0
 ;PCODE: $00000085 VOL: 0
 ;PCODE: $00000086 VOL: 0
-; 0004 0087 				WriteNum(SYMBOL_N);
 ;PCODE: $00000087 VOL: 0
+; 0004 005F 
+; 0004 0060 	for(row = 0; row < 7; row++)
 ;PCODE: $00000088 VOL: 0
-; 0004 0088 				break;
 ;PCODE: $00000089 VOL: 0
-; 0004 0089 			}
-; 0004 008A 		}
 ;PCODE: $0000008A VOL: 0
-; 0004 008B 		count_delay = 0;
 ;PCODE: $0000008B VOL: 0
 ;PCODE: $0000008C VOL: 0
-; 0004 008C 		matrix_status = matrix_status_new;
 ;PCODE: $0000008D VOL: 0
 ;PCODE: $0000008E VOL: 0
-; 0004 008D 	}
-; 0004 008E }
 ;PCODE: $0000008F VOL: 0
 ;PCODE: $00000090 VOL: 0
+; 0004 0061 	{
+; 0004 0062 		for(column = 0; column < 5; column++)
 ;PCODE: $00000091 VOL: 0
+;PCODE: $00000092 VOL: 0
+;PCODE: $00000093 VOL: 0
+;PCODE: $00000094 VOL: 0
+;PCODE: $00000095 VOL: 0
+;PCODE: $00000096 VOL: 0
+;PCODE: $00000097 VOL: 0
+;PCODE: $00000098 VOL: 0
+;PCODE: $00000099 VOL: 0
+; 0004 0063 		{
+; 0004 0064 			memcpy(new_frame, symbol_source, row + 1);
+;PCODE: $0000009A VOL: 0
+;PCODE: $0000009B VOL: 0
+;PCODE: $0000009C VOL: 0
+;PCODE: $0000009D VOL: 0
+;PCODE: $0000009E VOL: 0
+;PCODE: $0000009F VOL: 0
+;PCODE: $000000A0 VOL: 0
+; 0004 0065 
+; 0004 0066 			if(column == 0)
+;PCODE: $000000A1 VOL: 0
+;PCODE: $000000A2 VOL: 0
+; 0004 0067 			{
+; 0004 0068 				used_mask = mask;
+;PCODE: $000000A3 VOL: 0
+;PCODE: $000000A4 VOL: 0
+; 0004 0069 			}
+; 0004 006A 			else
+;PCODE: $000000A5 VOL: 0
+;PCODE: $000000A6 VOL: 0
+; 0004 006B 			{
+; 0004 006C 				used_mask += (64 / (1 << column-1));
+;PCODE: $000000A7 VOL: 0
+;PCODE: $000000A8 VOL: 0
+;PCODE: $000000A9 VOL: 0
+;PCODE: $000000AA VOL: 0
+;PCODE: $000000AB VOL: 0
+;PCODE: $000000AC VOL: 0
+;PCODE: $000000AD VOL: 0
+;PCODE: $000000AE VOL: 0
+;PCODE: $000000AF VOL: 0
+; 0004 006D 			}
+;PCODE: $000000B0 VOL: 0
+; 0004 006E 
+; 0004 006F 			new_frame[row] &= used_mask;
+;PCODE: $000000B1 VOL: 0
+;PCODE: $000000B2 VOL: 0
+;PCODE: $000000B3 VOL: 0
+;PCODE: $000000B4 VOL: 0
+;PCODE: $000000B5 VOL: 0
+; 0004 0070 			new_frame[row] |= (0x80 >> column);
+;PCODE: $000000B6 VOL: 0
+;PCODE: $000000B7 VOL: 0
+;PCODE: $000000B8 VOL: 0
+;PCODE: $000000B9 VOL: 0
+;PCODE: $000000BA VOL: 0
+;PCODE: $000000BB VOL: 0
+;PCODE: $000000BC VOL: 0
+;PCODE: $000000BD VOL: 0
+;PCODE: $000000BE VOL: 0
+;PCODE: $000000BF VOL: 0
+;PCODE: $000000C0 VOL: 0
+; 0004 0071 			WriteSymbol(new_frame);
+;PCODE: $000000C1 VOL: 0
+;PCODE: $000000C2 VOL: 0
+; 0004 0072 			delay_ms(30);
+;PCODE: $000000C3 VOL: 0
+;PCODE: $000000C4 VOL: 0
+;PCODE: $000000C5 VOL: 0
+; 0004 0073 		}
+;PCODE: $000000C6 VOL: 0
+;PCODE: $000000C7 VOL: 0
+;PCODE: $000000C8 VOL: 0
+;PCODE: $000000C9 VOL: 0
+;PCODE: $000000CA VOL: 0
+; 0004 0074 	}
+;PCODE: $000000CB VOL: 0
+;PCODE: $000000CC VOL: 0
+;PCODE: $000000CD VOL: 0
+;PCODE: $000000CE VOL: 0
+;PCODE: $000000CF VOL: 0
+; 0004 0075 	WriteSymbol(symbol_source);
+;PCODE: $000000D0 VOL: 0
+;PCODE: $000000D1 VOL: 0
+; 0004 0076 }
+;PCODE: $000000D2 VOL: 0
+;PCODE: $000000D3 VOL: 0
+;PCODE: $000000D4 VOL: 0
+;PCODE: $000000D5 VOL: 0
+;
+;void Animation_SlideShow(Matrix_Symbols symbol)
+; 0004 0079 {
+;PCODE: $000000D6 VOL: 0
+;PCODE: $000000D7 VOL: 0
+; 0004 007A 	uint8_t symbol_source[8];
+; 0004 007B 	int8_t row;
+; 0004 007C 
+; 0004 007D 	memcpy(symbol_source, GetSymbols(symbol), 8);
+;PCODE: $000000D8 VOL: 0
+;PCODE: $000000D9 VOL: 0
+;PCODE: $000000DA VOL: 0
+;	symbol -> R16
+;	symbol_source -> Y+2
+;	row -> R17
+;PCODE: $000000DB VOL: 0
+;PCODE: $000000DC VOL: 0
+;PCODE: $000000DD VOL: 0
+;PCODE: $000000DE VOL: 0
+;PCODE: $000000DF VOL: 0
+;PCODE: $000000E0 VOL: 0
+;PCODE: $000000E1 VOL: 0
+; 0004 007E 
+; 0004 007F 	for(row = 7; row >= 0; row--)
+;PCODE: $000000E2 VOL: 0
+;PCODE: $000000E3 VOL: 0
+;PCODE: $000000E4 VOL: 0
+;PCODE: $000000E5 VOL: 0
+;PCODE: $000000E6 VOL: 0
+;PCODE: $000000E7 VOL: 0
+;PCODE: $000000E8 VOL: 0
+;PCODE: $000000E9 VOL: 0
+; 0004 0080 	{
+; 0004 0081 		SendLed((row + 1), 0x00);
+;PCODE: $000000EA VOL: 0
+;PCODE: $000000EB VOL: 0
+;PCODE: $000000EC VOL: 0
+;PCODE: $000000ED VOL: 0
+;PCODE: $000000EE VOL: 0
+; 0004 0082 		delay_ms(50);
+;PCODE: $000000EF VOL: 0
+;PCODE: $000000F0 VOL: 0
+;PCODE: $000000F1 VOL: 0
+; 0004 0083 	}
+;PCODE: $000000F2 VOL: 0
+;PCODE: $000000F3 VOL: 0
+;PCODE: $000000F4 VOL: 0
+;PCODE: $000000F5 VOL: 0
+;PCODE: $000000F6 VOL: 0
+; 0004 0084 
+; 0004 0085 	for(row = 0; row <= 7; row++)
+;PCODE: $000000F7 VOL: 0
+;PCODE: $000000F8 VOL: 0
+;PCODE: $000000F9 VOL: 0
+;PCODE: $000000FA VOL: 0
+;PCODE: $000000FB VOL: 0
+;PCODE: $000000FC VOL: 0
+;PCODE: $000000FD VOL: 0
+;PCODE: $000000FE VOL: 0
+;PCODE: $000000FF VOL: 0
+; 0004 0086 	{
+; 0004 0087 		SendLed(row + 1, symbol_source[row]);
+;PCODE: $00000100 VOL: 0
+;PCODE: $00000101 VOL: 0
+;PCODE: $00000102 VOL: 0
+;PCODE: $00000103 VOL: 0
+;PCODE: $00000104 VOL: 0
+;PCODE: $00000105 VOL: 0
+;PCODE: $00000106 VOL: 0
+; 0004 0088 		delay_ms(50);
+;PCODE: $00000107 VOL: 0
+;PCODE: $00000108 VOL: 0
+;PCODE: $00000109 VOL: 0
+; 0004 0089 	}
+;PCODE: $0000010A VOL: 0
+;PCODE: $0000010B VOL: 0
+;PCODE: $0000010C VOL: 0
+;PCODE: $0000010D VOL: 0
+;PCODE: $0000010E VOL: 0
+; 0004 008A }
+;PCODE: $0000010F VOL: 0
+;PCODE: $00000110 VOL: 0
+;PCODE: $00000111 VOL: 0
+;PCODE: $00000112 VOL: 0
+;
+;void Trans_Poll(void)
+; 0004 008D {
+;PCODE: $00000113 VOL: 0
+;PCODE: $00000114 VOL: 0
+; 0004 008E 	static Transmission_State matrix_status_new = none;
+
+	.DSEG
+
+	.CSEG
+; 0004 008F 	static Transmission_State matrix_status = none;
+
+	.DSEG
+
+	.CSEG
+; 0004 0090 	static uint8_t count_delay = 0;
+; 0004 0091 
+; 0004 0092 	matrix_status_new = Transmission_Get_EN();
+;PCODE: $00000115 VOL: 0
+;PCODE: $00000116 VOL: 0
+; 0004 0093 
+; 0004 0094 	if(matrix_status != matrix_status_new)
+;PCODE: $00000117 VOL: 0
+;PCODE: $00000118 VOL: 0
+;PCODE: $00000119 VOL: 0
+;PCODE: $0000011A VOL: 0
+; 0004 0095 	{
+; 0004 0096 		count_delay++;
+;PCODE: $0000011B VOL: 0
+;PCODE: $0000011C VOL: 0
+;PCODE: $0000011D VOL: 0
+; 0004 0097 	}
+; 0004 0098 
+; 0004 0099 	if(count_delay == 6)
+;PCODE: $0000011E VOL: 0
+;PCODE: $0000011F VOL: 0
+;PCODE: $00000120 VOL: 0
+;PCODE: $00000121 VOL: 0
+; 0004 009A 	{
+; 0004 009B 		switch(matrix_status_new)
+;PCODE: $00000122 VOL: 0
+;PCODE: $00000123 VOL: 0
+; 0004 009C 		{
+; 0004 009D 			case R:
+;PCODE: $00000124 VOL: 0
+;PCODE: $00000125 VOL: 0
+; 0004 009E 			{
+; 0004 009F 				WriteNum(SYMBOL_EMTY);
+;PCODE: $00000126 VOL: 0
+;PCODE: $00000127 VOL: 0
+; 0004 00A0 				delay_ms(5);
+;PCODE: $00000128 VOL: 0
+;PCODE: $00000129 VOL: 0
+;PCODE: $0000012A VOL: 0
+; 0004 00A1 				Animation_HorizRows(SYMBOL_R);
+;PCODE: $0000012B VOL: 0
+;PCODE: $0000012C VOL: 0
+; 0004 00A2 				//WriteNum(SYMBOL_R);
+; 0004 00A3 				break;
+;PCODE: $0000012D VOL: 0
+; 0004 00A4 			}
+; 0004 00A5 			case ONE:
+;PCODE: $0000012E VOL: 0
+;PCODE: $0000012F VOL: 0
+;PCODE: $00000130 VOL: 0
+; 0004 00A6 			{
+; 0004 00A7 				WriteNum(SYMBOL_EMTY);
+;PCODE: $00000131 VOL: 0
+;PCODE: $00000132 VOL: 0
+; 0004 00A8 				delay_ms(5);
+;PCODE: $00000133 VOL: 0
+;PCODE: $00000134 VOL: 0
+;PCODE: $00000135 VOL: 0
+; 0004 00A9 				WriteNum(SYMBOL_ONE);
+;PCODE: $00000136 VOL: 0
+;PCODE: $00000137 VOL: 0
+; 0004 00AA 				break;
+;PCODE: $00000138 VOL: 0
+; 0004 00AB 			}
+; 0004 00AC 			case TWO:
+;PCODE: $00000139 VOL: 0
+;PCODE: $0000013A VOL: 0
+;PCODE: $0000013B VOL: 0
+; 0004 00AD 			{
+; 0004 00AE 				WriteNum(SYMBOL_EMTY);
+;PCODE: $0000013C VOL: 0
+;PCODE: $0000013D VOL: 0
+; 0004 00AF 				delay_ms(5);
+;PCODE: $0000013E VOL: 0
+;PCODE: $0000013F VOL: 0
+;PCODE: $00000140 VOL: 0
+; 0004 00B0 				WriteNum(SYMBOL_TWO);
+;PCODE: $00000141 VOL: 0
+;PCODE: $00000142 VOL: 0
+; 0004 00B1 				break;
+;PCODE: $00000143 VOL: 0
+; 0004 00B2 			}
+; 0004 00B3 			case THREE:
+;PCODE: $00000144 VOL: 0
+;PCODE: $00000145 VOL: 0
+;PCODE: $00000146 VOL: 0
+; 0004 00B4 			{
+; 0004 00B5 				//WriteNum(SYMBOL_EMTY);
+; 0004 00B6 				delay_ms(5);
+;PCODE: $00000147 VOL: 0
+;PCODE: $00000148 VOL: 0
+;PCODE: $00000149 VOL: 0
+; 0004 00B7 				Animation_SlideShow(SYMBOL_THREE);
+;PCODE: $0000014A VOL: 0
+;PCODE: $0000014B VOL: 0
+; 0004 00B8 				//WriteNum(SYMBOL_THREE);
+; 0004 00B9 				break;
+;PCODE: $0000014C VOL: 0
+; 0004 00BA 			}
+; 0004 00BB 			case FOUR:
+;PCODE: $0000014D VOL: 0
+;PCODE: $0000014E VOL: 0
+;PCODE: $0000014F VOL: 0
+; 0004 00BC 			{
+; 0004 00BD 				WriteNum(SYMBOL_EMTY);
+;PCODE: $00000150 VOL: 0
+;PCODE: $00000151 VOL: 0
+; 0004 00BE 				delay_ms(5);
+;PCODE: $00000152 VOL: 0
+;PCODE: $00000153 VOL: 0
+;PCODE: $00000154 VOL: 0
+; 0004 00BF 				WriteNum(SYMBOL_FOUR);
+;PCODE: $00000155 VOL: 0
+;PCODE: $00000156 VOL: 0
+; 0004 00C0 				break;
+;PCODE: $00000157 VOL: 0
+; 0004 00C1 			}
+; 0004 00C2 			case FIVE:
+;PCODE: $00000158 VOL: 0
+;PCODE: $00000159 VOL: 0
+;PCODE: $0000015A VOL: 0
+; 0004 00C3 			{
+; 0004 00C4 				WriteNum(SYMBOL_EMTY);
+;PCODE: $0000015B VOL: 0
+;PCODE: $0000015C VOL: 0
+; 0004 00C5 				delay_ms(5);
+;PCODE: $0000015D VOL: 0
+;PCODE: $0000015E VOL: 0
+;PCODE: $0000015F VOL: 0
+; 0004 00C6 				Animation_Cursor(SYMBOL_FIVE);
+;PCODE: $00000160 VOL: 0
+;PCODE: $00000161 VOL: 0
+; 0004 00C7 				//WriteNum(SYMBOL_FIVE);
+; 0004 00C8 				break;
+;PCODE: $00000162 VOL: 0
+; 0004 00C9 			}
+; 0004 00CA 			default:
+;PCODE: $00000163 VOL: 0
+; 0004 00CB 			{
+; 0004 00CC 				WriteNum(SYMBOL_EMTY);
+;PCODE: $00000164 VOL: 0
+;PCODE: $00000165 VOL: 0
+; 0004 00CD 				delay_ms(5);
+;PCODE: $00000166 VOL: 0
+;PCODE: $00000167 VOL: 0
+;PCODE: $00000168 VOL: 0
+; 0004 00CE 				WriteNum(SYMBOL_N);
+;PCODE: $00000169 VOL: 0
+;PCODE: $0000016A VOL: 0
+; 0004 00CF 				break;
+;PCODE: $0000016B VOL: 0
+; 0004 00D0 			}
+; 0004 00D1 		}
+;PCODE: $0000016C VOL: 0
+; 0004 00D2 		count_delay = 0;
+;PCODE: $0000016D VOL: 0
+;PCODE: $0000016E VOL: 0
+; 0004 00D3 		matrix_status = matrix_status_new;
+;PCODE: $0000016F VOL: 0
+;PCODE: $00000170 VOL: 0
+; 0004 00D4 	}
+; 0004 00D5 }
+;PCODE: $00000171 VOL: 0
+;PCODE: $00000172 VOL: 0
+;PCODE: $00000173 VOL: 0
 ;

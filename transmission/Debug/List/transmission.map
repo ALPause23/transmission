@@ -8,9 +8,10 @@ Symbol_FOUR (symbols.h #include-d from MAX7219.c)                               
 Symbol_FIVE (symbols.h #include-d from MAX7219.c)                                 0x00A4       8
 Symbol_R (symbols.h #include-d from MAX7219.c)                                    0x00AC       8
 Symbol_N (symbols.h #include-d from MAX7219.c)                                    0x00B4       8
-matrix_status_new (transmission.c)                                                0x00BC       1
-matrix_status (transmission.c)                                                    0x00BD       1
-count_delay (transmission.c)                                                      0x00BE       1
+Symbol_EMPTY (symbols.h #include-d from MAX7219.c)                                0x00BC       8
+matrix_status_new (transmission.c)                                                0x00C4       1
+matrix_status (transmission.c)                                                    0x00C5       1
+count_delay (transmission.c)                                                      0x00C6       1
 
 EEPROM Allocation [bytes]
 Variable                                                                          Address   Size
@@ -27,11 +28,17 @@ Function                                                                        
 ------------------------------------------------------------------------------------------------
 initialize_defolt                                                                 0x000B8     38
 main                                                                              0x000DE      8
-InitLed                                                                           0x000E6     24
-SendLed                                                                           0x000FE     12
-SetIntensity                                                                      0x0010A      8
-WriteNum                                                                          0x00112     24
-SPI_CS_Down                                                                       0x0015B      6
-SPI_Init                                                                          0x00161     10
-SPI_SendByte                                                                      0x0016B     12
-Trans_Poll                                                                        0x00194     77
+InitLed                                                                           0x000E6     20
+SendLed                                                                           0x000FA     11
+SetIntensity                                                                      0x00105      8
+WriteNum                                                                          0x0010D     22
+WriteSymbol                                                                       0x00123     21
+SPI_CS_Down                                                                       0x00169      6
+SPI_Init                                                                          0x0016F     10
+SPI_SendByte                                                                      0x00179     12
+Animation_HorizRows                                                               0x001A2     26
+Animation_Cursor                                                                  0x001BC     75
+Animation_SlideShow                                                               0x00207     32
+Trans_Poll                                                                        0x00227     79
+memcpy                                                                            0x00276     14
+memset                                                                            0x00284     13

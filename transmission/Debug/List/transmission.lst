@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.30  F:\GitHub\transmission\transmission\Debug\List\transmission.asm Sat Feb 18 14:22:25 2023
+AVRASM ver. 2.1.30  F:\GitHub\transmission\transmission\Debug\List\transmission.asm Sat Feb 18 23:09:29 2023
 
 F:\GitHub\transmission\transmission\Debug\List\transmission.asm(998): warning: Register r3 already defined by the .DEF directive
 F:\GitHub\transmission\transmission\Debug\List\transmission.asm(999): warning: Register r2 already defined by the .DEF directive
@@ -1173,10 +1173,10 @@ F:\GitHub\transmission\transmission\Debug\List\transmission.asm(1082): warning: 
 00006a 8898
 F:\GitHub\transmission\transmission\Debug\List\transmission.asm(1084): warning: .cseg .db misalignment - padding zero byte
 00006b 0088      	.DB  0x88,0x88,0xC8,0xA8,0x98,0x88,0x88
-                 _0x8000E:
+                 _0x8001F:
 F:\GitHub\transmission\transmission\Debug\List\transmission.asm(1086): warning: .cseg .db misalignment - padding zero byte
 00006c 00fe      	.DB  0xFE
-                 _0x8000F:
+                 _0x80020:
 F:\GitHub\transmission\transmission\Debug\List\transmission.asm(1088): warning: .cseg .db misalignment - padding zero byte
 00006d 00fe      	.DB  0xFE
                  
@@ -1218,12 +1218,12 @@ F:\GitHub\transmission\transmission\Debug\List\transmission.asm(1088): warning: 
 000088 0098      	.DW  _0x40009*2
                  
 000089 0001      	.DW  0x01
-00008a 00bc      	.DW  _matrix_status_new_S0040001000
-00008b 00d8      	.DW  _0x8000E*2
+00008a 00c4      	.DW  _matrix_status_new_S0040005000
+00008b 00d8      	.DW  _0x8001F*2
                  
 00008c 0001      	.DW  0x01
-00008d 00bd      	.DW  _matrix_status_S0040001000
-00008e 00da      	.DW  _0x8000F*2
+00008d 00c5      	.DW  _matrix_status_S0040005000
+00008e 00da      	.DW  _0x80020*2
                  
                  _0xFFFFFFFF:
 00008f 0000      	.DW  0
@@ -1477,7 +1477,7 @@ F:\GitHub\transmission\transmission\Debug\List\transmission.asm(1088): warning: 
                  ; 0000 0079 	initialize_defolt();
 0000de dfd9      	RCALL _initialize_defolt
                  ; 0000 007A 	SPI_Init();
-0000df d081      	RCALL _SPI_Init
+0000df d08f      	RCALL _SPI_Init
                  ; 0000 007B 	//GPIO_Set_Bits(GPIO_Pin_4);
                  ; 0000 007C 
                  ; 0000 007D 	InitLed();
@@ -1487,10 +1487,10 @@ F:\GitHub\transmission\transmission\Debug\List\transmission.asm(1088): warning: 
                  _0xA:
                  ; 0000 0080 	{
                  ; 0000 0081 		Trans_Poll();
-0000e1 d0b2      	RCALL _Trans_Poll
+0000e1 d145      	RCALL _Trans_Poll
                  ; 0000 0082 		delay_ms(10);
 0000e2 e0aa      	LDI  R26,LOW(10)
-0000e3 d0fd      	RCALL SUBOPT_0x0
+0000e3 d1ad      	RCALL SUBOPT_0x0
                  ; 0000 0083 	}
 0000e4 cffc      	RJMP _0xA
                  ; 0000 0084 }
@@ -1583,36 +1583,32 @@ F:\GitHub\transmission\transmission\Debug\List\transmission.asm(1088): warning: 
                  ; .FSTART _InitLed
                  ; 0002 0020 	SendLed((DISPLAY_TEST >> 8), (DISPLAY_TEST | 0x00));
 0000e6 e0ef      	LDI  R30,LOW(15)
-0000e7 93ea      	ST   -Y,R30
-0000e8 e0a0      	LDI  R26,LOW(0)
-0000e9 d014      	RCALL _SendLed
+0000e7 d1ab      	RCALL SUBOPT_0x1
                  ; 0002 0021 	SendLed((INTENSITY >> 8), (INTENSITY | 0x0f));
-0000ea e0ea      	LDI  R30,LOW(10)
-0000eb 93ea      	ST   -Y,R30
-0000ec e0af      	LDI  R26,LOW(15)
-0000ed d010      	RCALL _SendLed
+0000e8 e0ea      	LDI  R30,LOW(10)
+0000e9 93ea      	ST   -Y,R30
+0000ea e0af      	LDI  R26,LOW(15)
+0000eb d00e      	RCALL _SendLed
                  ; 0002 0022 	SendLed((SCAN_LIMIT >> 8), (SCAN_LIMIT | 0x07));
-0000ee e0eb      	LDI  R30,LOW(11)
-0000ef 93ea      	ST   -Y,R30
-0000f0 e0a7      	LDI  R26,LOW(7)
-0000f1 d00c      	RCALL _SendLed
+0000ec e0eb      	LDI  R30,LOW(11)
+0000ed 93ea      	ST   -Y,R30
+0000ee e0a7      	LDI  R26,LOW(7)
+0000ef d00a      	RCALL _SendLed
                  ; 0002 0023 	SendLed((NO_DECODE_MODE >> 8), (NO_DECODE_MODE | 0x00));
-0000f2 e0e9      	LDI  R30,LOW(9)
-0000f3 93ea      	ST   -Y,R30
-0000f4 e0a0      	LDI  R26,LOW(0)
-0000f5 d008      	RCALL _SendLed
+0000f0 e0e9      	LDI  R30,LOW(9)
+0000f1 d1a1      	RCALL SUBOPT_0x1
                  ; 0002 0024 	SendLed((SHUTDOWN >> 8), (SHUTDOWN | 0x01));
-0000f6 e0ec      	LDI  R30,LOW(12)
-0000f7 93ea      	ST   -Y,R30
-0000f8 e0a1      	LDI  R26,LOW(1)
-0000f9 d004      	RCALL _SendLed
+0000f2 e0ec      	LDI  R30,LOW(12)
+0000f3 93ea      	ST   -Y,R30
+0000f4 e0a1      	LDI  R26,LOW(1)
+0000f5 d004      	RCALL _SendLed
                  ; 0002 0025 	SetIntensity(0x0F);
-0000fa e0af      	LDI  R26,LOW(15)
-0000fb d00e      	RCALL _SetIntensity
+0000f6 e0af      	LDI  R26,LOW(15)
+0000f7 d00d      	RCALL _SetIntensity
                  ; 0002 0026 	WriteNum(SYMBOL_EMTY);
-0000fc d0e6      	RCALL SUBOPT_0x1
+0000f8 d19d      	RCALL SUBOPT_0x2
                  ; 0002 0027 }
-0000fd 9508      	RET
+0000f9 9508      	RET
                  ; .FEND
                  ;
                  ;void SendLed(uint8_t adr, uint8_t data)
@@ -1620,26 +1616,25 @@ F:\GitHub\transmission\transmission\Debug\List\transmission.asm(1088): warning: 
                  _SendLed:
                  ; .FSTART _SendLed
                  ; 0002 002B 	SPI_CS_Down();
-0000fe d0f1      	RCALL __SAVELOCR2
-0000ff 2f1a      	MOV  R17,R26
-000100 810a      	LDD  R16,Y+2
+0000fa d1bb      	RCALL __SAVELOCR2
+0000fb 2f1a      	MOV  R17,R26
+0000fc 810a      	LDD  R16,Y+2
                  ;	adr -> R16
                  ;	data -> R17
-000101 d059      	RCALL _SPI_CS_Down
+0000fd d06b      	RCALL _SPI_CS_Down
                  ; 0002 002C 
                  ; 0002 002D 	SPI_SendByte(adr);
-000102 2fa0      	MOV  R26,R16
-000103 d067      	RCALL _SPI_SendByte
+0000fe 2fa0      	MOV  R26,R16
+0000ff d079      	RCALL _SPI_SendByte
                  ; 0002 002E 	SPI_SendByte(data);
-000104 2fa1      	MOV  R26,R17
-000105 d065      	RCALL _SPI_SendByte
+000100 2fa1      	MOV  R26,R17
+000101 d077      	RCALL _SPI_SendByte
                  ; 0002 002F 
                  ; 0002 0030 	SPI_CS_Up();
-000106 d051      	RCALL _SPI_CS_Up
+000102 d063      	RCALL _SPI_CS_Up
                  ; 0002 0031 }
-000107 d0ed      	RCALL __LOADLOCR2
-000108 9623      	ADIW R28,3
-000109 9508      	RET
+000103 d1b9      	RCALL __LOADLOCR2
+000104 c18a      	RJMP _0x2060002
                  ; .FEND
                  ;
                  ;void SetIntensity(uint8_t a)  // 0 down to 15
@@ -1647,16 +1642,16 @@ F:\GitHub\transmission\transmission\Debug\List\transmission.asm(1088): warning: 
                  _SetIntensity:
                  ; .FSTART _SetIntensity
                  ; 0002 0035 	SendLed((INTENSITY >> 8), (SHUTDOWN | a));
-00010a 931a      	ST   -Y,R17
-00010b 2f1a      	MOV  R17,R26
+000105 931a      	ST   -Y,R17
+000106 2f1a      	MOV  R17,R26
                  ;	a -> R17
-00010c e0ea      	LDI  R30,LOW(10)
-00010d 93ea      	ST   -Y,R30
-00010e 2fe1      	MOV  R30,R17
-00010f 2fae      	MOV  R26,R30
-000110 dfed      	RCALL _SendLed
+000107 e0ea      	LDI  R30,LOW(10)
+000108 93ea      	ST   -Y,R30
+000109 2fe1      	MOV  R30,R17
+00010a 2fae      	MOV  R26,R30
+00010b dfee      	RCALL _SendLed
                  ; 0002 0036 }
-000111 c063      	RJMP _0x2040002
+00010c c076      	RJMP _0x2060004
                  ; .FEND
                  ;
                  ;void WriteNum(Matrix_Symbols num)
@@ -1667,60 +1662,91 @@ F:\GitHub\transmission\transmission\Debug\List\transmission.asm(1088): warning: 
                  ; 0002 003B 	int i;
                  ; 0002 003C 
                  ; 0002 003D 	s_ptr = GetSymbols(num);
-000112 d0db      	RCALL __SAVELOCR4
-000113 2f0a      	MOV  R16,R26
+00010d d1a6      	RCALL __SAVELOCR4
+00010e 2f0a      	MOV  R16,R26
                  ;	num -> R16
                  ;	*s_ptr -> R17
                  ;	i -> R18,R19
-000114 e010      	LDI  R17,0
-000115 d014      	RCALL _GetSymbols
-000116 2f1e      	MOV  R17,R30
+00010f e010      	LDI  R17,0
+000110 d027      	RCALL _GetSymbols
+000111 2f1e      	MOV  R17,R30
                  ; 0002 003E 
                  ; 0002 003F 	for(i = 0; i < 8; i++)
                 +
-000117 e020     +LDI R18 , LOW ( 0 )
-000118 e030     +LDI R19 , HIGH ( 0 )
+000112 e020     +LDI R18 , LOW ( 0 )
+000113 e030     +LDI R19 , HIGH ( 0 )
                  	__GETWRN 18,19,0
                  _0x4000B:
                 +
-000119 3028     +CPI R18 , LOW ( 8 )
-00011a e0e0     +LDI R30 , HIGH ( 8 )
-00011b 073e     +CPC R19 , R30
+000114 3028     +CPI R18 , LOW ( 8 )
+000115 e0e0     +LDI R30 , HIGH ( 8 )
+000116 073e     +CPC R19 , R30
                  	__CPWRN 18,19,8
-00011c f454      	BRGE _0x4000C
+000117 f454      	BRGE _0x4000C
                  ; 0002 0040 	{
                  ; 0002 0041 		SendLed((i + 1), s_ptr[i]);
-00011d 2fe2      	MOV  R30,R18
-00011e 5fef      	SUBI R30,-LOW(1)
-00011f 93ea      	ST   -Y,R30
-000120 2fe2      	MOV  R30,R18
-000121 0fe1      	ADD  R30,R17
-000122 81a0      	LD   R26,Z
-000123 dfda      	RCALL _SendLed
+000118 2fe2      	MOV  R30,R18
+000119 5fef      	SUBI R30,-LOW(1)
+00011a 93ea      	ST   -Y,R30
+00011b 2fe2      	MOV  R30,R18
+00011c 0fe1      	ADD  R30,R17
+00011d 81a0      	LD   R26,Z
+00011e dfdb      	RCALL _SendLed
                  ; 0002 0042 	}
                 +
-000124 5f2f     +SUBI R18 , LOW ( - 1 )
-000125 4f3f     +SBCI R19 , HIGH ( - 1 )
+00011f 5f2f     +SUBI R18 , LOW ( - 1 )
+000120 4f3f     +SBCI R19 , HIGH ( - 1 )
                  	__ADDWRN 18,19,1
-000126 cff2      	RJMP _0x4000B
+000121 cff2      	RJMP _0x4000B
                  _0x4000C:
                  ; 0002 0043 }
-000127 d0cb      	RCALL __LOADLOCR4
-000128 9624      	ADIW R28,4
-000129 9508      	RET
+000122 c012      	RJMP _0x2060006
                  ; .FEND
                  ;
                  ;void WriteSymbol(uint8_t* num)
                  ; 0002 0046 {
+                 _WriteSymbol:
+                 ; .FSTART _WriteSymbol
                  ; 0002 0047 	int i;
                  ; 0002 0048 
                  ; 0002 0049 	for(i = 0; i < 8; i++)
+000123 d190      	RCALL __SAVELOCR4
+000124 2f3a      	MOV  R19,R26
                  ;	*num -> R19
                  ;	i -> R16,R17
+                +
+000125 e000     +LDI R16 , LOW ( 0 )
+000126 e010     +LDI R17 , HIGH ( 0 )
+                 	__GETWRN 16,17,0
+                 _0x4000E:
+                +
+000127 3008     +CPI R16 , LOW ( 8 )
+000128 e0e0     +LDI R30 , HIGH ( 8 )
+000129 071e     +CPC R17 , R30
+                 	__CPWRN 16,17,8
+00012a f454      	BRGE _0x4000F
                  ; 0002 004A 	{
                  ; 0002 004B 		SendLed((i + 1), num[i]);
+00012b 2fe0      	MOV  R30,R16
+00012c 5fef      	SUBI R30,-LOW(1)
+00012d 93ea      	ST   -Y,R30
+00012e 2fe0      	MOV  R30,R16
+00012f 0fe3      	ADD  R30,R19
+000130 81a0      	LD   R26,Z
+000131 dfc8      	RCALL _SendLed
                  ; 0002 004C 	}
+                +
+000132 5f0f     +SUBI R16 , LOW ( - 1 )
+000133 4f1f     +SBCI R17 , HIGH ( - 1 )
+                 	__ADDWRN 16,17,1
+000134 cff2      	RJMP _0x4000E
+                 _0x4000F:
                  ; 0002 004D }
+                 _0x2060006:
+000135 d185      	RCALL __LOADLOCR4
+000136 9624      	ADIW R28,4
+000137 9508      	RET
+                 ; .FEND
                  ;
                  ;
                  ;uint8_t *GetSymbols(Matrix_Symbols i)
@@ -1729,93 +1755,93 @@ F:\GitHub\transmission\transmission\Debug\List\transmission.asm(1088): warning: 
                  ; .FSTART _GetSymbols
                  ; 0002 0052 	//return symbols_ptr[i];
                  ; 0002 0053 	switch (i)
-00012a 931a      	ST   -Y,R17
-00012b 2f1a      	MOV  R17,R26
+000138 931a      	ST   -Y,R17
+000139 2f1a      	MOV  R17,R26
                  ;	i -> R17
-00012c 2fe1      	MOV  R30,R17
-00012d e0f0      	LDI  R31,0
+00013a 2fe1      	MOV  R30,R17
+00013b e0f0      	LDI  R31,0
                  ; 0002 0054 	{
                  ; 0002 0055 		case SYMBOL_R:
-00012e 9730      	SBIW R30,0
-00012f f411      	BRNE _0x40013
+00013c 9730      	SBIW R30,0
+00013d f411      	BRNE _0x40013
                  ; 0002 0056 		{
                  ; 0002 0057 			return Symbol_R;
-000130 eaec      	LDI  R30,LOW(_Symbol_R_G002)
-000131 c043      	RJMP _0x2040002
+00013e eaec      	LDI  R30,LOW(_Symbol_R_G002)
+00013f c043      	RJMP _0x2060004
                  ; 0002 0058 		}
                  ; 0002 0059 		case SYMBOL_ONE:
                  _0x40013:
-000132 30e1      	CPI  R30,LOW(0x1)
-000133 e0a0      	LDI  R26,HIGH(0x1)
-000134 07fa      	CPC  R31,R26
-000135 f411      	BRNE _0x40014
+000140 30e1      	CPI  R30,LOW(0x1)
+000141 e0a0      	LDI  R26,HIGH(0x1)
+000142 07fa      	CPC  R31,R26
+000143 f411      	BRNE _0x40014
                  ; 0002 005A 		{
                  ; 0002 005B 			return Symbol_ONE;
-000136 e8e4      	LDI  R30,LOW(_Symbol_ONE_G002)
-000137 c03d      	RJMP _0x2040002
+000144 e8e4      	LDI  R30,LOW(_Symbol_ONE_G002)
+000145 c03d      	RJMP _0x2060004
                  ; 0002 005C 		}
                  ; 0002 005D 		case SYMBOL_TWO:
                  _0x40014:
-000138 30e2      	CPI  R30,LOW(0x2)
-000139 e0a0      	LDI  R26,HIGH(0x2)
-00013a 07fa      	CPC  R31,R26
-00013b f411      	BRNE _0x40015
+000146 30e2      	CPI  R30,LOW(0x2)
+000147 e0a0      	LDI  R26,HIGH(0x2)
+000148 07fa      	CPC  R31,R26
+000149 f411      	BRNE _0x40015
                  ; 0002 005E 		{
                  ; 0002 005F 			return Symbol_TWO;
-00013c e8ec      	LDI  R30,LOW(_Symbol_TWO_G002)
-00013d c037      	RJMP _0x2040002
+00014a e8ec      	LDI  R30,LOW(_Symbol_TWO_G002)
+00014b c037      	RJMP _0x2060004
                  ; 0002 0060 		}
                  ; 0002 0061 		case SYMBOL_THREE:
                  _0x40015:
-00013e 30e3      	CPI  R30,LOW(0x3)
-00013f e0a0      	LDI  R26,HIGH(0x3)
-000140 07fa      	CPC  R31,R26
-000141 f411      	BRNE _0x40016
+00014c 30e3      	CPI  R30,LOW(0x3)
+00014d e0a0      	LDI  R26,HIGH(0x3)
+00014e 07fa      	CPC  R31,R26
+00014f f411      	BRNE _0x40016
                  ; 0002 0062 		{
                  ; 0002 0063 			return Symbol_THREE;
-000142 e9e4      	LDI  R30,LOW(_Symbol_THREE_G002)
-000143 c031      	RJMP _0x2040002
+000150 e9e4      	LDI  R30,LOW(_Symbol_THREE_G002)
+000151 c031      	RJMP _0x2060004
                  ; 0002 0064 		}
                  ; 0002 0065 		case SYMBOL_FOUR:
                  _0x40016:
-000144 30e4      	CPI  R30,LOW(0x4)
-000145 e0a0      	LDI  R26,HIGH(0x4)
-000146 07fa      	CPC  R31,R26
-000147 f411      	BRNE _0x40017
+000152 30e4      	CPI  R30,LOW(0x4)
+000153 e0a0      	LDI  R26,HIGH(0x4)
+000154 07fa      	CPC  R31,R26
+000155 f411      	BRNE _0x40017
                  ; 0002 0066 		{
                  ; 0002 0067 			return Symbol_FOUR;
-000148 e9ec      	LDI  R30,LOW(_Symbol_FOUR_G002)
-000149 c02b      	RJMP _0x2040002
+000156 e9ec      	LDI  R30,LOW(_Symbol_FOUR_G002)
+000157 c02b      	RJMP _0x2060004
                  ; 0002 0068 		}
                  ; 0002 0069 		case SYMBOL_FIVE:
                  _0x40017:
-00014a 30e5      	CPI  R30,LOW(0x5)
-00014b e0a0      	LDI  R26,HIGH(0x5)
-00014c 07fa      	CPC  R31,R26
-00014d f411      	BRNE _0x40018
+000158 30e5      	CPI  R30,LOW(0x5)
+000159 e0a0      	LDI  R26,HIGH(0x5)
+00015a 07fa      	CPC  R31,R26
+00015b f411      	BRNE _0x40018
                  ; 0002 006A 		{
                  ; 0002 006B 			return Symbol_FIVE;
-00014e eae4      	LDI  R30,LOW(_Symbol_FIVE_G002)
-00014f c025      	RJMP _0x2040002
+00015c eae4      	LDI  R30,LOW(_Symbol_FIVE_G002)
+00015d c025      	RJMP _0x2060004
                  ; 0002 006C 		}
                  ; 0002 006D 		case SYMBOL_N:
                  _0x40018:
-000150 30e6      	CPI  R30,LOW(0x6)
-000151 e0a0      	LDI  R26,HIGH(0x6)
-000152 07fa      	CPC  R31,R26
-000153 f411      	BRNE _0x4001A
+00015e 30e6      	CPI  R30,LOW(0x6)
+00015f e0a0      	LDI  R26,HIGH(0x6)
+000160 07fa      	CPC  R31,R26
+000161 f411      	BRNE _0x4001A
                  ; 0002 006E 		{
                  ; 0002 006F 			return Symbol_N;
-000154 ebe4      	LDI  R30,LOW(_Symbol_N_G002)
-000155 c01f      	RJMP _0x2040002
+000162 ebe4      	LDI  R30,LOW(_Symbol_N_G002)
+000163 c01f      	RJMP _0x2060004
                  ; 0002 0070 		}
-                 ; 0002 0071 		default: break;
+                 ; 0002 0071 		default: return Symbol_EMPTY;
                  _0x4001A:
+000164 ebec      	LDI  R30,LOW(_Symbol_EMPTY_G002)
+000165 c01d      	RJMP _0x2060004
                  ; 0002 0072 	}
                  ; 0002 0073 
                  ; 0002 0074 	return 0;
-000156 e0e0      	LDI  R30,LOW(0)
-000157 c01d      	RJMP _0x2040002
                  ; 0002 0075 }
                  ; .FEND
                  ;
@@ -1851,9 +1877,9 @@ F:\GitHub\transmission\transmission\Debug\List\transmission.asm(1088): warning: 
                  _SPI_CS_Up:
                  ; .FSTART _SPI_CS_Up
                  ; 0003 0018 	*CS_Port |= (1<<CS_Pin);
-000158 d08c      	RCALL SUBOPT_0x2
-000159 29e1      	OR   R30,R1
-00015a c003      	RJMP _0x2040003
+000166 d131      	RCALL SUBOPT_0x3
+000167 29e1      	OR   R30,R1
+000168 c003      	RJMP _0x2060005
                  ; 0003 0019 }
                  ; .FEND
                  ;
@@ -1862,14 +1888,14 @@ F:\GitHub\transmission\transmission\Debug\List\transmission.asm(1088): warning: 
                  _SPI_CS_Down:
                  ; .FSTART _SPI_CS_Down
                  ; 0003 001D 	*CS_Port &= ~(1<<CS_Pin);
-00015b d089      	RCALL SUBOPT_0x2
-00015c 95e0      	COM  R30
-00015d 21e1      	AND  R30,R1
-                 _0x2040003:
-00015e 2fa6      	MOV  R26,R22
-00015f 93ec      	ST   X,R30
+000169 d12e      	RCALL SUBOPT_0x3
+00016a 95e0      	COM  R30
+00016b 21e1      	AND  R30,R1
+                 _0x2060005:
+00016c 2fa6      	MOV  R26,R22
+00016d 93ec      	ST   X,R30
                  ; 0003 001E }
-000160 9508      	RET
+00016e 9508      	RET
                  ; .FEND
                  ;
                  ;void SPI_Init(void)
@@ -1877,22 +1903,22 @@ F:\GitHub\transmission\transmission\Debug\List\transmission.asm(1088): warning: 
                  _SPI_Init:
                  ; .FSTART _SPI_Init
                  ; 0003 0022 	DDRB|=((1<<PORTB6)|(1<<PORTB7));//Ножки USI на выход
-000161 b3e7      	IN   R30,0x17
-000162 6ce0      	ORI  R30,LOW(0xC0)
-000163 bbe7      	OUT  0x17,R30
+00016f b3e7      	IN   R30,0x17
+000170 6ce0      	ORI  R30,LOW(0xC0)
+000171 bbe7      	OUT  0x17,R30
                  ; 0003 0023 
                  ; 0003 0024 	PORTB&=~((1<<PORTB6)|(1<<PORTB7));//Ножки USI в низкий уровень
-000164 b3e8      	IN   R30,0x18
-000165 73ef      	ANDI R30,LOW(0x3F)
-000166 bbe8      	OUT  0x18,R30
+000172 b3e8      	IN   R30,0x18
+000173 73ef      	ANDI R30,LOW(0x3F)
+000174 bbe8      	OUT  0x18,R30
                  ; 0003 0025 	DDRD |= (1<<PORTD6);
-000167 9a8e      	SBI  0x11,6
+000175 9a8e      	SBI  0x11,6
                  ; 0003 0026 	PORTD |= GPIO_Pin_6;
-000168 9a96      	SBI  0x12,6
+000176 9a96      	SBI  0x12,6
                  ; 0003 0027 	USICR |= (1<<USIWM0);
-000169 9a6c      	SBI  0xD,4
+000177 9a6c      	SBI  0xD,4
                  ; 0003 0028 }
-00016a 9508      	RET
+000178 9508      	RET
                  ; .FEND
                  ;
                  ;void SPI_SendByte(uint8_t byte)
@@ -1901,32 +1927,32 @@ F:\GitHub\transmission\transmission\Debug\List\transmission.asm(1088): warning: 
                  _SPI_SendByte:
                  ; .FSTART _SPI_SendByte
                  ; 0003 002D 	USIDR = byte; //данные в регистр
-00016b 931a      	ST   -Y,R17
-00016c 2f1a      	MOV  R17,R26
+000179 931a      	ST   -Y,R17
+00017a 2f1a      	MOV  R17,R26
                  ;	byte -> R17
-00016d b91f      	OUT  0xF,R17
+00017b b91f      	OUT  0xF,R17
                  ; 0003 002E 	USISR |= (1<<USIOIF);//установим флаг начала передачи
-00016e 9a76      	SBI  0xE,6
+00017c 9a76      	SBI  0xE,6
                  ; 0003 002F 	//SPI_CS_Down();
                  ; 0003 0030 	while(!(USISR & (1<<USIOIF)))
                  _0x60003:
-00016f 9976      	SBIC 0xE,6
-000170 c004      	RJMP _0x60005
+00017d 9976      	SBIC 0xE,6
+00017e c004      	RJMP _0x60005
                  ; 0003 0031 
                  ; 0003 0032 	{
                  ; 0003 0033 		USICR |= ((1<<USIWM0)|(1<<USICS1)|(1<<USICLK)|(1<<USITC));//постепенно передаем байт
-000171 b1ed      	IN   R30,0xD
-000172 61eb      	ORI  R30,LOW(0x1B)
-000173 b9ed      	OUT  0xD,R30
+00017f b1ed      	IN   R30,0xD
+000180 61eb      	ORI  R30,LOW(0x1B)
+000181 b9ed      	OUT  0xD,R30
                  ; 0003 0034 		//delay_us(10);
                  ; 0003 0035 	}
-000174 cffa      	RJMP _0x60003
+000182 cffa      	RJMP _0x60003
                  _0x60005:
                  ; 0003 0036 	//SPI_CS_Up();
                  ; 0003 0037 }
-                 _0x2040002:
-000175 9119      	LD   R17,Y+
-000176 9508      	RET
+                 _0x2060004:
+000183 9119      	LD   R17,Y+
+000184 9508      	RET
                  ; .FEND
                  ;/*
                  ; * transmission.c
@@ -1942,6 +1968,7 @@ F:\GitHub\transmission\transmission\Debug\List\transmission.asm(1088): warning: 
                  
                  	.DSEG
                  ;//#include <symbols.h>
+                 ;#include <setjmp.h>
                  ;
                  ;typedef enum
                  ;{
@@ -1973,243 +2000,528 @@ F:\GitHub\transmission\transmission\Debug\List\transmission.asm(1088): warning: 
                  ;//};
                  ;
                  ;Transmission_State Transmission_Get_EN(void)
-                 ; 0004 002A {
+                 ; 0004 002B {
                  
                  	.CSEG
                  _Transmission_Get_EN:
                  ; .FSTART _Transmission_Get_EN
-                 ; 0004 002B 	int i = 0;
-                 ; 0004 002C 	for(i = 0; i <= 5; i++)
-000177 d078      	RCALL __SAVELOCR2
+                 ; 0004 002C 	int i = 0;
+                 ; 0004 002D 	for(i = 0; i <= 5; i++)
+000185 d130      	RCALL __SAVELOCR2
                  ;	i -> R16,R17
                 +
-000178 e000     +LDI R16 , LOW ( 0 )
-000179 e010     +LDI R17 , HIGH ( 0 )
+000186 e000     +LDI R16 , LOW ( 0 )
+000187 e010     +LDI R17 , HIGH ( 0 )
                  	__GETWRN 16,17,0
                 +
-00017a e000     +LDI R16 , LOW ( 0 )
-00017b e010     +LDI R17 , HIGH ( 0 )
+000188 e000     +LDI R16 , LOW ( 0 )
+000189 e010     +LDI R17 , HIGH ( 0 )
                  	__GETWRN 16,17,0
                  _0x8000B:
                 +
-00017c 3006     +CPI R16 , LOW ( 6 )
-00017d e0e0     +LDI R30 , HIGH ( 6 )
-00017e 071e     +CPC R17 , R30
+00018a 3006     +CPI R16 , LOW ( 6 )
+00018b e0e0     +LDI R30 , HIGH ( 6 )
+00018c 071e     +CPC R17 , R30
                  	__CPWRN 16,17,6
-00017f f484      	BRGE _0x8000C
-                 ; 0004 002D 	{
-                 ; 0004 002E 		if((PINB & (1<<i)) == 0)
-000180 b366      	IN   R22,22
-000181 2fe0      	MOV  R30,R16
-000182 e0a1      	LDI  R26,LOW(1)
-000183 e0b0      	LDI  R27,HIGH(1)
-000184 d07b      	RCALL __LSLW12
-000185 2fa6      	MOV  R26,R22
-000186 e0b0      	LDI  R27,0
-000187 23ea      	AND  R30,R26
-000188 23fb      	AND  R31,R27
-000189 9730      	SBIW R30,0
-00018a f411      	BRNE _0x8000D
-                 ; 0004 002F 		{
-                 ; 0004 0030 			return i;
-00018b 2fe0      	MOV  R30,R16
-00018c c004      	RJMP _0x2040001
-                 ; 0004 0031 		}
-                 ; 0004 0032 	}
+00018d f484      	BRGE _0x8000C
+                 ; 0004 002E 	{
+                 ; 0004 002F 		if((PINB & (1<<i)) == 0)
+00018e b366      	IN   R22,22
+00018f 2fe0      	MOV  R30,R16
+000190 e0a1      	LDI  R26,LOW(1)
+000191 e0b0      	LDI  R27,HIGH(1)
+000192 d13d      	RCALL __LSLW12
+000193 2fa6      	MOV  R26,R22
+000194 e0b0      	LDI  R27,0
+000195 23ea      	AND  R30,R26
+000196 23fb      	AND  R31,R27
+000197 9730      	SBIW R30,0
+000198 f411      	BRNE _0x8000D
+                 ; 0004 0030 		{
+                 ; 0004 0031 			return i;
+000199 2fe0      	MOV  R30,R16
+00019a c004      	RJMP _0x2060003
+                 ; 0004 0032 		}
+                 ; 0004 0033 	}
                  _0x8000D:
                 +
-00018d 5f0f     +SUBI R16 , LOW ( - 1 )
-00018e 4f1f     +SBCI R17 , HIGH ( - 1 )
+00019b 5f0f     +SUBI R16 , LOW ( - 1 )
+00019c 4f1f     +SBCI R17 , HIGH ( - 1 )
                  	__ADDWRN 16,17,1
-00018f cfec      	RJMP _0x8000B
+00019d cfec      	RJMP _0x8000B
                  _0x8000C:
-                 ; 0004 0033 	return N;
-000190 efef      	LDI  R30,LOW(255)
-                 _0x2040001:
-000191 9109      	LD   R16,Y+
-000192 9119      	LD   R17,Y+
-000193 9508      	RET
-                 ; 0004 0034 }
+                 ; 0004 0034 	return N;
+00019e efef      	LDI  R30,LOW(255)
+                 _0x2060003:
+00019f 9109      	LD   R16,Y+
+0001a0 9119      	LD   R17,Y+
+0001a1 9508      	RET
+                 ; 0004 0035 }
                  ; .FEND
                  ;
-                 ;//void Animation(Matrix_Symbols symbol)
-                 ;//{
-                 ;	//uint8_t new_frame[8];
-                 ;	//uint8_t symbol_source[8];
-                 ;	//uint8_t i;
-                 ;	//
-                 ;	//memset(new_frame, 0, 8);
-                 ;	//memcpy(symbol_source, GetSymbols(symbol), 8);
-                 ;	//
-                 ;	//for(i = 0; i < 7; i++)
-                 ;	//{
-                 ;		//memcpy(&new_frame[i], &symbol_source[i], 1);
-                 ;		//WriteSymbol(new_frame);
-                 ;		//delay_ms(800);
-                 ;	//}
-                 ;//}
+                 ;void Animation_HorizRows(Matrix_Symbols symbol)
+                 ; 0004 0038 {
+                 _Animation_HorizRows:
+                 ; .FSTART _Animation_HorizRows
+                 ; 0004 0039 	uint8_t new_frame[8];
+                 ; 0004 003A 	uint8_t symbol_source[8];
+                 ; 0004 003B 	uint8_t i;
+                 ; 0004 003C 
+                 ; 0004 003D 	memset(new_frame, 0, 8);
+0001a2 9760      	SBIW R28,16
+0001a3 d112      	RCALL __SAVELOCR2
+0001a4 2f0a      	MOV  R16,R26
+                 ;	symbol -> R16
+                 ;	new_frame -> Y+10
+                 ;	symbol_source -> Y+2
+                 ;	i -> R17
+0001a5 2fec      	MOV  R30,R28
+0001a6 5fe6      	SUBI R30,-(10)
+0001a7 d0f7      	RCALL SUBOPT_0x4
+                 ; 0004 003E 	memcpy(symbol_source, GetSymbols(symbol), 8);
+0001a8 d0fb      	RCALL SUBOPT_0x5
+                 ; 0004 003F 
+                 ; 0004 0040 	for(i = 0; i < 7; i++)
+0001a9 e010      	LDI  R17,LOW(0)
+                 _0x8000F:
+0001aa 3017      	CPI  R17,7
+0001ab f468      	BRSH _0x80010
+                 ; 0004 0041 	{
+                 ; 0004 0042 		memcpy(new_frame, symbol_source, i + 1);
+0001ac 2fec      	MOV  R30,R28
+0001ad 5fe6      	SUBI R30,-(10)
+0001ae 93ea      	ST   -Y,R30
+0001af 2fec      	MOV  R30,R28
+0001b0 5fed      	SUBI R30,-(3)
+0001b1 d0fa      	RCALL SUBOPT_0x6
+                 ; 0004 0043 		WriteSymbol(new_frame);
+0001b2 2fac      	MOV  R26,R28
+0001b3 5fa6      	SUBI R26,-(10)
+0001b4 df6e      	RCALL _WriteSymbol
+                 ; 0004 0044 		delay_ms(50);
+0001b5 e3a2      	LDI  R26,LOW(50)
+0001b6 d0da      	RCALL SUBOPT_0x0
+                 ; 0004 0045 	}
+0001b7 5f1f      	SUBI R17,-1
+0001b8 cff1      	RJMP _0x8000F
+                 _0x80010:
+                 ; 0004 0046 }
+0001b9 d103      	RCALL __LOADLOCR2
+0001ba 9662      	ADIW R28,18
+0001bb 9508      	RET
+                 ; .FEND
+                 ;
+                 ;void Animation_ProgressBar(Matrix_Symbols symbol)
+                 ; 0004 0049 {
+                 ; 0004 004A 	uint8_t new_frame[8];
+                 ; 0004 004B 	uint8_t symbol_source[8];
+                 ; 0004 004C 
+                 ; 0004 004D 
+                 ; 0004 004E 	memcpy(symbol_source, GetSymbols(symbol), 8);
+                 ;	symbol -> R17
+                 ;	new_frame -> Y+9
+                 ;	symbol_source -> Y+1
+                 ; 0004 004F 
+                 ; 0004 0050 
+                 ; 0004 0051 
+                 ; 0004 0052 	WriteSymbol(new_frame);
+                 ; 0004 0053 }
+                 ;
+                 ;void Animation_Cursor(Matrix_Symbols symbol)
+                 ; 0004 0056 {
+                 _Animation_Cursor:
+                 ; .FSTART _Animation_Cursor
+                 ; 0004 0057 	uint8_t new_frame[8];
+                 ; 0004 0058 	uint8_t symbol_source[8];
+                 ; 0004 0059 	uint8_t row, column, mask = 0x80;
+                 ; 0004 005A 	uint8_t used_mask = 0UL;
+                 ; 0004 005B 
+                 ; 0004 005C 
+                 ; 0004 005D 	memset(new_frame, 0, 8);
+0001bc 9760      	SBIW R28,16
+0001bd d0f4      	RCALL __SAVELOCR6
+0001be 2f5a      	MOV  R21,R26
+                 ;	symbol -> R21
+                 ;	new_frame -> Y+14
+                 ;	symbol_source -> Y+6
+                 ;	row -> R17
+                 ;	column -> R16
+                 ;	mask -> R19
+                 ;	used_mask -> R18
+0001bf e830      	LDI  R19,128
+0001c0 e020      	LDI  R18,0
+0001c1 2fec      	MOV  R30,R28
+0001c2 5fe2      	SUBI R30,-(14)
+0001c3 d0db      	RCALL SUBOPT_0x4
+                 ; 0004 005E 	memcpy(symbol_source, GetSymbols(symbol), 8);
+0001c4 2fec      	MOV  R30,R28
+0001c5 5fea      	SUBI R30,-(6)
+0001c6 93ea      	ST   -Y,R30
+0001c7 2fa5      	MOV  R26,R21
+0001c8 df6f      	RCALL _GetSymbols
+0001c9 93ea      	ST   -Y,R30
+0001ca e0a8      	LDI  R26,LOW(8)
+0001cb d0aa      	RCALL _memcpy
+                 ; 0004 005F 
+                 ; 0004 0060 	for(row = 0; row < 7; row++)
+0001cc e010      	LDI  R17,LOW(0)
+                 _0x80012:
+0001cd 3017      	CPI  R17,7
+0001ce f590      	BRSH _0x80013
+                 ; 0004 0061 	{
+                 ; 0004 0062 		for(column = 0; column < 5; column++)
+0001cf e000      	LDI  R16,LOW(0)
+                 _0x80015:
+0001d0 3005      	CPI  R16,5
+0001d1 f568      	BRSH _0x80016
+                 ; 0004 0063 		{
+                 ; 0004 0064 			memcpy(new_frame, symbol_source, row + 1);
+0001d2 2fec      	MOV  R30,R28
+0001d3 5fe2      	SUBI R30,-(14)
+0001d4 93ea      	ST   -Y,R30
+0001d5 2fec      	MOV  R30,R28
+0001d6 5fe9      	SUBI R30,-(7)
+0001d7 d0d4      	RCALL SUBOPT_0x6
+                 ; 0004 0065 
+                 ; 0004 0066 			if(column == 0)
+0001d8 3000      	CPI  R16,0
+0001d9 f411      	BRNE _0x80017
+                 ; 0004 0067 			{
+                 ; 0004 0068 				used_mask = mask;
+0001da 2f23      	MOV  R18,R19
+                 ; 0004 0069 			}
+                 ; 0004 006A 			else
+0001db c00a      	RJMP _0x80018
+                 _0x80017:
+                 ; 0004 006B 			{
+                 ; 0004 006C 				used_mask += (64 / (1 << column-1));
+0001dc 2fe0      	MOV  R30,R16
+0001dd e0f0      	LDI  R31,0
+0001de 9731      	SBIW R30,1
+0001df e0a1      	LDI  R26,LOW(1)
+0001e0 e0b0      	LDI  R27,HIGH(1)
+0001e1 d0ee      	RCALL __LSLW12
+0001e2 e4a0      	LDI  R26,LOW(64)
+0001e3 e0b0      	LDI  R27,HIGH(64)
+0001e4 d0fc      	RCALL __DIVW21U
+0001e5 0f2e      	ADD  R18,R30
+                 ; 0004 006D 			}
+                 _0x80018:
+                 ; 0004 006E 
+                 ; 0004 006F 			new_frame[row] &= used_mask;
+0001e6 2fac      	MOV  R26,R28
+0001e7 5fa2      	SUBI R26,-(14)
+0001e8 0fa1      	ADD  R26,R17
+0001e9 91ec      	LD   R30,X
+0001ea 23e2      	AND  R30,R18
+0001eb 93ec      	ST   X,R30
+                 ; 0004 0070 			new_frame[row] |= (0x80 >> column);
+0001ec 2fe1      	MOV  R30,R17
+0001ed 2fac      	MOV  R26,R28
+0001ee 5fa2      	SUBI R26,-(14)
+0001ef 0fea      	ADD  R30,R26
+0001f0 2f4e      	MOV  R20,R30
+0001f1 8010      	LD   R1,Z
+0001f2 2fe0      	MOV  R30,R16
+0001f3 e8a0      	LDI  R26,LOW(128)
+0001f4 d0d3      	RCALL __LSRB12
+0001f5 29e1      	OR   R30,R1
+0001f6 2fa4      	MOV  R26,R20
+0001f7 93ec      	ST   X,R30
+                 ; 0004 0071 			WriteSymbol(new_frame);
+0001f8 2fac      	MOV  R26,R28
+0001f9 5fa2      	SUBI R26,-(14)
+0001fa df28      	RCALL _WriteSymbol
+                 ; 0004 0072 			delay_ms(30);
+0001fb e1ae      	LDI  R26,LOW(30)
+0001fc d094      	RCALL SUBOPT_0x0
+                 ; 0004 0073 		}
+0001fd 5f0f      	SUBI R16,-1
+0001fe cfd1      	RJMP _0x80015
+                 _0x80016:
+                 ; 0004 0074 	}
+0001ff 5f1f      	SUBI R17,-1
+000200 cfcc      	RJMP _0x80012
+                 _0x80013:
+                 ; 0004 0075 	WriteSymbol(symbol_source);
+000201 2fac      	MOV  R26,R28
+000202 5faa      	SUBI R26,-(6)
+000203 df1f      	RCALL _WriteSymbol
+                 ; 0004 0076 }
+000204 d0b4      	RCALL __LOADLOCR6
+000205 9666      	ADIW R28,22
+000206 9508      	RET
+                 ; .FEND
+                 ;
+                 ;void Animation_SlideShow(Matrix_Symbols symbol)
+                 ; 0004 0079 {
+                 _Animation_SlideShow:
+                 ; .FSTART _Animation_SlideShow
+                 ; 0004 007A 	uint8_t symbol_source[8];
+                 ; 0004 007B 	int8_t row;
+                 ; 0004 007C 
+                 ; 0004 007D 	memcpy(symbol_source, GetSymbols(symbol), 8);
+000207 9728      	SBIW R28,8
+000208 d0ad      	RCALL __SAVELOCR2
+000209 2f0a      	MOV  R16,R26
+                 ;	symbol -> R16
+                 ;	symbol_source -> Y+2
+                 ;	row -> R17
+00020a d099      	RCALL SUBOPT_0x5
+                 ; 0004 007E 
+                 ; 0004 007F 	for(row = 7; row >= 0; row--)
+00020b e017      	LDI  R17,LOW(7)
+                 _0x8001A:
+00020c 3010      	CPI  R17,0
+00020d f03c      	BRLT _0x8001B
+                 ; 0004 0080 	{
+                 ; 0004 0081 		SendLed((row + 1), 0x00);
+00020e 2fe1      	MOV  R30,R17
+00020f 5fef      	SUBI R30,-LOW(1)
+000210 d082      	RCALL SUBOPT_0x1
+                 ; 0004 0082 		delay_ms(50);
+000211 e3a2      	LDI  R26,LOW(50)
+000212 d07e      	RCALL SUBOPT_0x0
+                 ; 0004 0083 	}
+000213 5011      	SUBI R17,1
+000214 cff7      	RJMP _0x8001A
+                 _0x8001B:
+                 ; 0004 0084 
+                 ; 0004 0085 	for(row = 0; row <= 7; row++)
+000215 e010      	LDI  R17,LOW(0)
+                 _0x8001D:
+000216 3018      	CPI  R17,8
+000217 f464      	BRGE _0x8001E
+                 ; 0004 0086 	{
+                 ; 0004 0087 		SendLed(row + 1, symbol_source[row]);
+000218 2fe1      	MOV  R30,R17
+000219 5fef      	SUBI R30,-LOW(1)
+00021a 93ea      	ST   -Y,R30
+00021b 2fac      	MOV  R26,R28
+00021c 5fad      	SUBI R26,-(3)
+00021d 0fa1      	ADD  R26,R17
+00021e 91ac      	LD   R26,X
+00021f deda      	RCALL _SendLed
+                 ; 0004 0088 		delay_ms(50);
+000220 e3a2      	LDI  R26,LOW(50)
+000221 d06f      	RCALL SUBOPT_0x0
+                 ; 0004 0089 	}
+000222 5f1f      	SUBI R17,-1
+000223 cff2      	RJMP _0x8001D
+                 _0x8001E:
+                 ; 0004 008A }
+000224 d098      	RCALL __LOADLOCR2
+000225 962a      	ADIW R28,10
+000226 9508      	RET
+                 ; .FEND
                  ;
                  ;void Trans_Poll(void)
-                 ; 0004 0048 {
+                 ; 0004 008D {
                  _Trans_Poll:
                  ; .FSTART _Trans_Poll
-                 ; 0004 0049 	static Transmission_State matrix_status_new = none;
+                 ; 0004 008E 	static Transmission_State matrix_status_new = none;
                  
                  	.DSEG
                  
                  	.CSEG
-                 ; 0004 004A 	static Transmission_State matrix_status = none;
+                 ; 0004 008F 	static Transmission_State matrix_status = none;
                  
                  	.DSEG
                  
                  	.CSEG
-                 ; 0004 004B 	static uint8_t count_delay = 0;
-                 ; 0004 004C 
-                 ; 0004 004D 	matrix_status_new = Transmission_Get_EN();
-000194 dfe2      	RCALL _Transmission_Get_EN
-000195 93e0 00bc 	STS  _matrix_status_new_S0040001000,R30
-                 ; 0004 004E 
-                 ; 0004 004F 	if(matrix_status != matrix_status_new)
-000197 91a0 00bd 	LDS  R26,_matrix_status_S0040001000
-000199 17ea      	CP   R30,R26
-00019a f029      	BREQ _0x80010
-                 ; 0004 0050 	{
-                 ; 0004 0051 		count_delay++;
-00019b 91e0 00be 	LDS  R30,_count_delay_S0040001000
-00019d 5fef      	SUBI R30,-LOW(1)
-00019e 93e0 00be 	STS  _count_delay_S0040001000,R30
-                 ; 0004 0052 	}
-                 ; 0004 0053 
-                 ; 0004 0054 	if(count_delay == 6)
-                 _0x80010:
-0001a0 91a0 00be 	LDS  R26,_count_delay_S0040001000
-0001a2 30a6      	CPI  R26,LOW(0x6)
-0001a3 f5e1      	BRNE _0x80011
-                 ; 0004 0055 	{
-                 ; 0004 0056 		switch(matrix_status_new)
-0001a4 91e0 00bc 	LDS  R30,_matrix_status_new_S0040001000
-0001a6 e0f0      	LDI  R31,0
-                 ; 0004 0057 		{
-                 ; 0004 0058 			case R:
-0001a7 9730      	SBIW R30,0
-0001a8 f421      	BRNE _0x80015
-                 ; 0004 0059 			{
-                 ; 0004 005A 				WriteNum(SYMBOL_EMTY);
-0001a9 d039      	RCALL SUBOPT_0x1
-                 ; 0004 005B 				delay_ms(5);
-0001aa d041      	RCALL SUBOPT_0x3
-                 ; 0004 005C 				//Animation(SYMBOL_R);
-                 ; 0004 005D 				WriteNum(SYMBOL_R);
-0001ab e0a0      	LDI  R26,LOW(0)
-0001ac c02b      	RJMP _0x8001C
-                 ; 0004 005E 				break;
-                 ; 0004 005F 			}
-                 ; 0004 0060 			case ONE:
-                 _0x80015:
-0001ad 30e1      	CPI  R30,LOW(0x1)
-0001ae e0a0      	LDI  R26,HIGH(0x1)
-0001af 07fa      	CPC  R31,R26
-0001b0 f421      	BRNE _0x80016
-                 ; 0004 0061 			{
-                 ; 0004 0062 				WriteNum(SYMBOL_EMTY);
-0001b1 d031      	RCALL SUBOPT_0x1
-                 ; 0004 0063 				delay_ms(5);
-0001b2 d039      	RCALL SUBOPT_0x3
-                 ; 0004 0064 				WriteNum(SYMBOL_ONE);
-0001b3 e0a1      	LDI  R26,LOW(1)
-0001b4 c023      	RJMP _0x8001C
-                 ; 0004 0065 				break;
-                 ; 0004 0066 			}
-                 ; 0004 0067 			case TWO:
-                 _0x80016:
-0001b5 30e2      	CPI  R30,LOW(0x2)
-0001b6 e0a0      	LDI  R26,HIGH(0x2)
-0001b7 07fa      	CPC  R31,R26
-0001b8 f421      	BRNE _0x80017
-                 ; 0004 0068 			{
-                 ; 0004 0069 				WriteNum(SYMBOL_EMTY);
-0001b9 d029      	RCALL SUBOPT_0x1
-                 ; 0004 006A 				delay_ms(5);
-0001ba d031      	RCALL SUBOPT_0x3
-                 ; 0004 006B 				WriteNum(SYMBOL_TWO);
-0001bb e0a2      	LDI  R26,LOW(2)
-0001bc c01b      	RJMP _0x8001C
-                 ; 0004 006C 				break;
-                 ; 0004 006D 			}
-                 ; 0004 006E 			case THREE:
-                 _0x80017:
-0001bd 30e3      	CPI  R30,LOW(0x3)
-0001be e0a0      	LDI  R26,HIGH(0x3)
-0001bf 07fa      	CPC  R31,R26
-0001c0 f421      	BRNE _0x80018
-                 ; 0004 006F 			{
-                 ; 0004 0070 				WriteNum(SYMBOL_EMTY);
-0001c1 d021      	RCALL SUBOPT_0x1
-                 ; 0004 0071 				delay_ms(5);
-0001c2 d029      	RCALL SUBOPT_0x3
-                 ; 0004 0072 				WriteNum(SYMBOL_THREE);
-0001c3 e0a3      	LDI  R26,LOW(3)
-0001c4 c013      	RJMP _0x8001C
-                 ; 0004 0073 				break;
-                 ; 0004 0074 			}
-                 ; 0004 0075 			case FOUR:
-                 _0x80018:
-0001c5 30e4      	CPI  R30,LOW(0x4)
-0001c6 e0a0      	LDI  R26,HIGH(0x4)
-0001c7 07fa      	CPC  R31,R26
-0001c8 f421      	BRNE _0x80019
-                 ; 0004 0076 			{
-                 ; 0004 0077 				WriteNum(SYMBOL_EMTY);
-0001c9 d019      	RCALL SUBOPT_0x1
-                 ; 0004 0078 				delay_ms(5);
-0001ca d021      	RCALL SUBOPT_0x3
-                 ; 0004 0079 				WriteNum(SYMBOL_FOUR);
-0001cb e0a4      	LDI  R26,LOW(4)
-0001cc c00b      	RJMP _0x8001C
-                 ; 0004 007A 				break;
-                 ; 0004 007B 			}
-                 ; 0004 007C 			case FIVE:
-                 _0x80019:
-0001cd 30e5      	CPI  R30,LOW(0x5)
-0001ce e0a0      	LDI  R26,HIGH(0x5)
-0001cf 07fa      	CPC  R31,R26
-0001d0 f421      	BRNE _0x8001B
-                 ; 0004 007D 			{
-                 ; 0004 007E 				WriteNum(SYMBOL_EMTY);
-0001d1 d011      	RCALL SUBOPT_0x1
-                 ; 0004 007F 				delay_ms(5);
-0001d2 d019      	RCALL SUBOPT_0x3
-                 ; 0004 0080 				WriteNum(SYMBOL_FIVE);
-0001d3 e0a5      	LDI  R26,LOW(5)
-0001d4 c003      	RJMP _0x8001C
-                 ; 0004 0081 				break;
-                 ; 0004 0082 			}
-                 ; 0004 0083 			default:
-                 _0x8001B:
-                 ; 0004 0084 			{
-                 ; 0004 0085 				WriteNum(SYMBOL_EMTY);
-0001d5 d00d      	RCALL SUBOPT_0x1
-                 ; 0004 0086 				delay_ms(5);
-0001d6 d015      	RCALL SUBOPT_0x3
-                 ; 0004 0087 				WriteNum(SYMBOL_N);
-0001d7 e0a6      	LDI  R26,LOW(6)
-                 _0x8001C:
-0001d8 df39      	RCALL _WriteNum
-                 ; 0004 0088 				break;
-                 ; 0004 0089 			}
-                 ; 0004 008A 		}
-                 ; 0004 008B 		count_delay = 0;
-0001d9 e0e0      	LDI  R30,LOW(0)
-0001da 93e0 00be 	STS  _count_delay_S0040001000,R30
-                 ; 0004 008C 		matrix_status = matrix_status_new;
-0001dc 91e0 00bc 	LDS  R30,_matrix_status_new_S0040001000
-0001de 93e0 00bd 	STS  _matrix_status_S0040001000,R30
-                 ; 0004 008D 	}
-                 ; 0004 008E }
-                 _0x80011:
-0001e0 9508      	RET
+                 ; 0004 0090 	static uint8_t count_delay = 0;
+                 ; 0004 0091 
+                 ; 0004 0092 	matrix_status_new = Transmission_Get_EN();
+000227 df5d      	RCALL _Transmission_Get_EN
+000228 93e0 00c4 	STS  _matrix_status_new_S0040005000,R30
+                 ; 0004 0093 
+                 ; 0004 0094 	if(matrix_status != matrix_status_new)
+00022a 91a0 00c5 	LDS  R26,_matrix_status_S0040005000
+00022c 17ea      	CP   R30,R26
+00022d f029      	BREQ _0x80021
+                 ; 0004 0095 	{
+                 ; 0004 0096 		count_delay++;
+00022e 91e0 00c6 	LDS  R30,_count_delay_S0040005000
+000230 5fef      	SUBI R30,-LOW(1)
+000231 93e0 00c6 	STS  _count_delay_S0040005000,R30
+                 ; 0004 0097 	}
+                 ; 0004 0098 
+                 ; 0004 0099 	if(count_delay == 6)
+                 _0x80021:
+000233 91a0 00c6 	LDS  R26,_count_delay_S0040005000
+000235 30a6      	CPI  R26,LOW(0x6)
+000236 f5f1      	BRNE _0x80022
+                 ; 0004 009A 	{
+                 ; 0004 009B 		switch(matrix_status_new)
+000237 91e0 00c4 	LDS  R30,_matrix_status_new_S0040005000
+000239 e0f0      	LDI  R31,0
+                 ; 0004 009C 		{
+                 ; 0004 009D 			case R:
+00023a 9730      	SBIW R30,0
+00023b f429      	BRNE _0x80026
+                 ; 0004 009E 			{
+                 ; 0004 009F 				WriteNum(SYMBOL_EMTY);
+00023c d059      	RCALL SUBOPT_0x2
+                 ; 0004 00A0 				delay_ms(5);
+00023d d072      	RCALL SUBOPT_0x7
+                 ; 0004 00A1 				Animation_HorizRows(SYMBOL_R);
+00023e e0a0      	LDI  R26,LOW(0)
+00023f df62      	RCALL _Animation_HorizRows
+                 ; 0004 00A2 				//WriteNum(SYMBOL_R);
+                 ; 0004 00A3 				break;
+000240 c02d      	RJMP _0x80025
+                 ; 0004 00A4 			}
+                 ; 0004 00A5 			case ONE:
+                 _0x80026:
+000241 30e1      	CPI  R30,LOW(0x1)
+000242 e0a0      	LDI  R26,HIGH(0x1)
+000243 07fa      	CPC  R31,R26
+000244 f421      	BRNE _0x80027
+                 ; 0004 00A6 			{
+                 ; 0004 00A7 				WriteNum(SYMBOL_EMTY);
+000245 d050      	RCALL SUBOPT_0x2
+                 ; 0004 00A8 				delay_ms(5);
+000246 d069      	RCALL SUBOPT_0x7
+                 ; 0004 00A9 				WriteNum(SYMBOL_ONE);
+000247 e0a1      	LDI  R26,LOW(1)
+000248 c024      	RJMP _0x8002D
+                 ; 0004 00AA 				break;
+                 ; 0004 00AB 			}
+                 ; 0004 00AC 			case TWO:
+                 _0x80027:
+000249 30e2      	CPI  R30,LOW(0x2)
+00024a e0a0      	LDI  R26,HIGH(0x2)
+00024b 07fa      	CPC  R31,R26
+00024c f421      	BRNE _0x80028
+                 ; 0004 00AD 			{
+                 ; 0004 00AE 				WriteNum(SYMBOL_EMTY);
+00024d d048      	RCALL SUBOPT_0x2
+                 ; 0004 00AF 				delay_ms(5);
+00024e d061      	RCALL SUBOPT_0x7
+                 ; 0004 00B0 				WriteNum(SYMBOL_TWO);
+00024f e0a2      	LDI  R26,LOW(2)
+000250 c01c      	RJMP _0x8002D
+                 ; 0004 00B1 				break;
+                 ; 0004 00B2 			}
+                 ; 0004 00B3 			case THREE:
+                 _0x80028:
+000251 30e3      	CPI  R30,LOW(0x3)
+000252 e0a0      	LDI  R26,HIGH(0x3)
+000253 07fa      	CPC  R31,R26
+000254 f421      	BRNE _0x80029
+                 ; 0004 00B4 			{
+                 ; 0004 00B5 				//WriteNum(SYMBOL_EMTY);
+                 ; 0004 00B6 				delay_ms(5);
+000255 d05a      	RCALL SUBOPT_0x7
+                 ; 0004 00B7 				Animation_SlideShow(SYMBOL_THREE);
+000256 e0a3      	LDI  R26,LOW(3)
+000257 dfaf      	RCALL _Animation_SlideShow
+                 ; 0004 00B8 				//WriteNum(SYMBOL_THREE);
+                 ; 0004 00B9 				break;
+000258 c015      	RJMP _0x80025
+                 ; 0004 00BA 			}
+                 ; 0004 00BB 			case FOUR:
+                 _0x80029:
+000259 30e4      	CPI  R30,LOW(0x4)
+00025a e0a0      	LDI  R26,HIGH(0x4)
+00025b 07fa      	CPC  R31,R26
+00025c f421      	BRNE _0x8002A
+                 ; 0004 00BC 			{
+                 ; 0004 00BD 				WriteNum(SYMBOL_EMTY);
+00025d d038      	RCALL SUBOPT_0x2
+                 ; 0004 00BE 				delay_ms(5);
+00025e d051      	RCALL SUBOPT_0x7
+                 ; 0004 00BF 				WriteNum(SYMBOL_FOUR);
+00025f e0a4      	LDI  R26,LOW(4)
+000260 c00c      	RJMP _0x8002D
+                 ; 0004 00C0 				break;
+                 ; 0004 00C1 			}
+                 ; 0004 00C2 			case FIVE:
+                 _0x8002A:
+000261 30e5      	CPI  R30,LOW(0x5)
+000262 e0a0      	LDI  R26,HIGH(0x5)
+000263 07fa      	CPC  R31,R26
+000264 f429      	BRNE _0x8002C
+                 ; 0004 00C3 			{
+                 ; 0004 00C4 				WriteNum(SYMBOL_EMTY);
+000265 d030      	RCALL SUBOPT_0x2
+                 ; 0004 00C5 				delay_ms(5);
+000266 d049      	RCALL SUBOPT_0x7
+                 ; 0004 00C6 				Animation_Cursor(SYMBOL_FIVE);
+000267 e0a5      	LDI  R26,LOW(5)
+000268 df53      	RCALL _Animation_Cursor
+                 ; 0004 00C7 				//WriteNum(SYMBOL_FIVE);
+                 ; 0004 00C8 				break;
+000269 c004      	RJMP _0x80025
+                 ; 0004 00C9 			}
+                 ; 0004 00CA 			default:
+                 _0x8002C:
+                 ; 0004 00CB 			{
+                 ; 0004 00CC 				WriteNum(SYMBOL_EMTY);
+00026a d02b      	RCALL SUBOPT_0x2
+                 ; 0004 00CD 				delay_ms(5);
+00026b d044      	RCALL SUBOPT_0x7
+                 ; 0004 00CE 				WriteNum(SYMBOL_N);
+00026c e0a6      	LDI  R26,LOW(6)
+                 _0x8002D:
+00026d de9f      	RCALL _WriteNum
+                 ; 0004 00CF 				break;
+                 ; 0004 00D0 			}
+                 ; 0004 00D1 		}
+                 _0x80025:
+                 ; 0004 00D2 		count_delay = 0;
+00026e e0e0      	LDI  R30,LOW(0)
+00026f 93e0 00c6 	STS  _count_delay_S0040005000,R30
+                 ; 0004 00D3 		matrix_status = matrix_status_new;
+000271 91e0 00c4 	LDS  R30,_matrix_status_new_S0040005000
+000273 93e0 00c5 	STS  _matrix_status_S0040005000,R30
+                 ; 0004 00D4 	}
+                 ; 0004 00D5 }
+                 _0x80022:
+000275 9508      	RET
                  ; .FEND
                  ;
+                 
+                 	.CSEG
+                 _memcpy:
+                 ; .FSTART _memcpy
+000276 93aa      	ST   -Y,R26
+000277 8188          ld   r24,y
+000278 2388          tst  r24
+000279 f041          breq memcpy1
+00027a 27bb          clr  r27
+00027b 81aa          ldd  r26,y+2
+00027c 27ff          clr  r31
+00027d 81e9          ldd  r30,y+1
+                 memcpy0:
+00027e 9161          ld   r22,z+
+00027f 936d          st   x+,r22
+000280 958a          dec  r24
+000281 f7e1          brne memcpy0
+                 memcpy1:
+000282 81ea          ldd  r30,y+2
+000283 c00b      	RJMP _0x2060001
+                 ; .FEND
+                 _memset:
+                 ; .FSTART _memset
+000284 93aa      	ST   -Y,R26
+000285 81a8          ld   r26,y
+000286 23aa          tst  r26
+000287 f031          breq memset1
+000288 27ff          clr  r31
+000289 81ea          ldd  r30,y+2
+00028a 8169          ldd  r22,y+1
+                 memset0:
+00028b 9361          st   z+,r22
+00028c 95aa          dec  r26
+00028d f7e9          brne memset0
+                 memset1:
+00028e 81ea          ldd  r30,y+2
+                 _0x2060001:
+                 _0x2060002:
+00028f 9623      	ADIW R28,3
+000290 9508      	RET
+                 ; .FEND
                  
                  	.CSEG
                  
@@ -2230,110 +2542,188 @@ F:\GitHub\transmission\transmission\Debug\List\transmission.asm(1088): warning: 
 0000ac           	.BYTE 0x8
                  _Symbol_N_G002:
 0000b4           	.BYTE 0x8
-                 _matrix_status_new_S0040001000:
-0000bc           	.BYTE 0x1
-                 _matrix_status_S0040001000:
-0000bd           	.BYTE 0x1
-                 _count_delay_S0040001000:
-0000be           	.BYTE 0x1
+                 _Symbol_EMPTY_G002:
+0000bc           	.BYTE 0x8
+                 _matrix_status_new_S0040005000:
+0000c4           	.BYTE 0x1
+                 _matrix_status_S0040005000:
+0000c5           	.BYTE 0x1
+                 _count_delay_S0040005000:
+0000c6           	.BYTE 0x1
                  
                  	.CSEG
-                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 8 TIMES, CODE SIZE REDUCTION:5 WORDS
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 12 TIMES, CODE SIZE REDUCTION:9 WORDS
                  SUBOPT_0x0:
-0001e1 e0b0      	LDI  R27,0
-0001e2 c02e      	RJMP _delay_ms
+000291 e0b0      	LDI  R27,0
+000292 c061      	RJMP _delay_ms
                  
-                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 8 TIMES, CODE SIZE REDUCTION:5 WORDS
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:2 WORDS
                  SUBOPT_0x1:
-0001e3 e0a7      	LDI  R26,LOW(7)
-0001e4 cf2d      	RJMP _WriteNum
-                 
-                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:3 WORDS
-                 SUBOPT_0x2:
-0001e5 2de3      	MOV  R30,R3
-0001e6 2f6e      	MOV  R22,R30
-0001e7 8010      	LD   R1,Z
-0001e8 2de2      	MOV  R30,R2
-0001e9 e0a1      	LDI  R26,LOW(1)
-0001ea d00d      	RCALL __LSLB12
-0001eb 9508      	RET
+000293 93ea      	ST   -Y,R30
+000294 e0a0      	LDI  R26,LOW(0)
+000295 ce64      	RJMP _SendLed
                  
                  ;OPTIMIZER ADDED SUBROUTINE, CALLED 7 TIMES, CODE SIZE REDUCTION:4 WORDS
+                 SUBOPT_0x2:
+000296 e0a7      	LDI  R26,LOW(7)
+000297 ce75      	RJMP _WriteNum
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:3 WORDS
                  SUBOPT_0x3:
-0001ec e0a5      	LDI  R26,LOW(5)
-0001ed cff3      	RJMP SUBOPT_0x0
+000298 2de3      	MOV  R30,R3
+000299 2f6e      	MOV  R22,R30
+00029a 8010      	LD   R1,Z
+00029b 2de2      	MOV  R30,R2
+00029c e0a1      	LDI  R26,LOW(1)
+00029d d022      	RCALL __LSLB12
+00029e 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:2 WORDS
+                 SUBOPT_0x4:
+00029f 93ea      	ST   -Y,R30
+0002a0 e0e0      	LDI  R30,LOW(0)
+0002a1 93ea      	ST   -Y,R30
+0002a2 e0a8      	LDI  R26,LOW(8)
+0002a3 cfe0      	RJMP _memset
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:5 WORDS
+                 SUBOPT_0x5:
+0002a4 2fec      	MOV  R30,R28
+0002a5 5fee      	SUBI R30,-(2)
+0002a6 93ea      	ST   -Y,R30
+0002a7 2fa0      	MOV  R26,R16
+0002a8 de8f      	RCALL _GetSymbols
+0002a9 93ea      	ST   -Y,R30
+0002aa e0a8      	LDI  R26,LOW(8)
+0002ab cfca      	RJMP _memcpy
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+                 SUBOPT_0x6:
+0002ac 93ea      	ST   -Y,R30
+0002ad 2fa1      	MOV  R26,R17
+0002ae 5faf      	SUBI R26,-LOW(1)
+0002af cfc6      	RJMP _memcpy
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 7 TIMES, CODE SIZE REDUCTION:4 WORDS
+                 SUBOPT_0x7:
+0002b0 e0a5      	LDI  R26,LOW(5)
+0002b1 cfdf      	RJMP SUBOPT_0x0
                  
                  ;RUNTIME LIBRARY
                  
                  	.CSEG
+                 __SAVELOCR6:
+0002b2 935a      	ST   -Y,R21
+                 __SAVELOCR5:
+0002b3 934a      	ST   -Y,R20
                  __SAVELOCR4:
-0001ee 933a      	ST   -Y,R19
+0002b4 933a      	ST   -Y,R19
                  __SAVELOCR3:
-0001ef 932a      	ST   -Y,R18
+0002b5 932a      	ST   -Y,R18
                  __SAVELOCR2:
-0001f0 931a      	ST   -Y,R17
-0001f1 930a      	ST   -Y,R16
-0001f2 9508      	RET
+0002b6 931a      	ST   -Y,R17
+0002b7 930a      	ST   -Y,R16
+0002b8 9508      	RET
                  
+                 __LOADLOCR6:
+0002b9 815d      	LDD  R21,Y+5
+                 __LOADLOCR5:
+0002ba 814c      	LDD  R20,Y+4
                  __LOADLOCR4:
-0001f3 813b      	LDD  R19,Y+3
+0002bb 813b      	LDD  R19,Y+3
                  __LOADLOCR3:
-0001f4 812a      	LDD  R18,Y+2
+0002bc 812a      	LDD  R18,Y+2
                  __LOADLOCR2:
-0001f5 8119      	LDD  R17,Y+1
-0001f6 8108      	LD   R16,Y
-0001f7 9508      	RET
+0002bd 8119      	LDD  R17,Y+1
+0002be 8108      	LD   R16,Y
+0002bf 9508      	RET
                  
                  __LSLB12:
-0001f8 23ee      	TST  R30
-0001f9 2e0e      	MOV  R0,R30
-0001fa 2fea      	MOV  R30,R26
-0001fb f019      	BREQ __LSLB12R
+0002c0 23ee      	TST  R30
+0002c1 2e0e      	MOV  R0,R30
+0002c2 2fea      	MOV  R30,R26
+0002c3 f019      	BREQ __LSLB12R
                  __LSLB12L:
-0001fc 0fee      	LSL  R30
-0001fd 940a      	DEC  R0
-0001fe f7e9      	BRNE __LSLB12L
+0002c4 0fee      	LSL  R30
+0002c5 940a      	DEC  R0
+0002c6 f7e9      	BRNE __LSLB12L
                  __LSLB12R:
-0001ff 9508      	RET
+0002c7 9508      	RET
+                 
+                 __LSRB12:
+0002c8 23ee      	TST  R30
+0002c9 2e0e      	MOV  R0,R30
+0002ca 2fea      	MOV  R30,R26
+0002cb f019      	BREQ __LSRB12R
+                 __LSRB12L:
+0002cc 95e6      	LSR  R30
+0002cd 940a      	DEC  R0
+0002ce f7e9      	BRNE __LSRB12L
+                 __LSRB12R:
+0002cf 9508      	RET
                  
                  __LSLW12:
-000200 23ee      	TST  R30
-000201 2e0e      	MOV  R0,R30
-000202 e0e8      	LDI  R30,8
-000203 2e1e      	MOV  R1,R30
-000204 01fd      	MOVW R30,R26
-000205 f051      	BREQ __LSLW12R
+0002d0 23ee      	TST  R30
+0002d1 2e0e      	MOV  R0,R30
+0002d2 e0e8      	LDI  R30,8
+0002d3 2e1e      	MOV  R1,R30
+0002d4 01fd      	MOVW R30,R26
+0002d5 f051      	BREQ __LSLW12R
                  __LSLW12S8:
-000206 1401      	CP   R0,R1
-000207 f020      	BRLO __LSLW12L
-000208 2ffe      	MOV  R31,R30
-000209 e0e0      	LDI  R30,0
-00020a 1801      	SUB  R0,R1
-00020b f021      	BREQ __LSLW12R
+0002d6 1401      	CP   R0,R1
+0002d7 f020      	BRLO __LSLW12L
+0002d8 2ffe      	MOV  R31,R30
+0002d9 e0e0      	LDI  R30,0
+0002da 1801      	SUB  R0,R1
+0002db f021      	BREQ __LSLW12R
                  __LSLW12L:
-00020c 0fee      	LSL  R30
-00020d 1fff      	ROL  R31
-00020e 940a      	DEC  R0
-00020f f7e1      	BRNE __LSLW12L
+0002dc 0fee      	LSL  R30
+0002dd 1fff      	ROL  R31
+0002de 940a      	DEC  R0
+0002df f7e1      	BRNE __LSLW12L
                  __LSLW12R:
-000210 9508      	RET
+0002e0 9508      	RET
+                 
+                 __DIVW21U:
+0002e1 2400      	CLR  R0
+0002e2 2411      	CLR  R1
+0002e3 e190      	LDI  R25,16
+                 __DIVW21U1:
+0002e4 0faa      	LSL  R26
+0002e5 1fbb      	ROL  R27
+0002e6 1c00      	ROL  R0
+0002e7 1c11      	ROL  R1
+0002e8 1a0e      	SUB  R0,R30
+0002e9 0a1f      	SBC  R1,R31
+0002ea f418      	BRCC __DIVW21U2
+0002eb 0e0e      	ADD  R0,R30
+0002ec 1e1f      	ADC  R1,R31
+0002ed c001      	RJMP __DIVW21U3
+                 __DIVW21U2:
+0002ee 60a1      	SBR  R26,1
+                 __DIVW21U3:
+0002ef 959a      	DEC  R25
+0002f0 f799      	BRNE __DIVW21U1
+0002f1 01fd      	MOVW R30,R26
+0002f2 01d0      	MOVW R26,R0
+0002f3 9508      	RET
                  
                  _delay_ms:
-000211 9610      	adiw r26,0
-000212 f039      	breq __delay_ms1
+0002f4 9610      	adiw r26,0
+0002f5 f039      	breq __delay_ms1
                  __delay_ms0:
-000213 95a8      	wdr
+0002f6 95a8      	wdr
                 +
-000214 ed80     +LDI R24 , LOW ( 0x7D0 )
-000215 e097     +LDI R25 , HIGH ( 0x7D0 )
+0002f7 ed80     +LDI R24 , LOW ( 0x7D0 )
+0002f8 e097     +LDI R25 , HIGH ( 0x7D0 )
                 +__DELAY_USW_LOOP :
-000216 9701     +SBIW R24 , 1
-000217 f7f1     +BRNE __DELAY_USW_LOOP
+0002f9 9701     +SBIW R24 , 1
+0002fa f7f1     +BRNE __DELAY_USW_LOOP
                  	__DELAY_USW 0x7D0
-000218 9711      	sbiw r26,1
-000219 f7c9      	brne __delay_ms0
+0002fb 9711      	sbiw r26,1
+0002fc f7c9      	brne __delay_ms0
                  __delay_ms1:
-00021a 9508      	ret
+0002fd 9508      	ret
                  
                  ;END OF CODE MARKER
                  __END_OF_CODE:
@@ -2354,41 +2744,41 @@ counted separately from r26..r31 here.
 .dseg memory usage only counts static data declared with .byte
 
 ATtiny2313A register use summary:
-r0 :  10 r1 :   7 r2 :   1 r3 :   1 r4 :   0 r5 :   0 r6 :   0 r7 :   0 
+r0 :  17 r1 :  13 r2 :   1 r3 :   1 r4 :   0 r5 :   0 r6 :   0 r7 :   0 
 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 r13:   0 r14:   0 r15:   0 
-r16:  12 r17:  22 r18:   7 r19:   5 r20:   0 r21:   0 r22:   6 r23:   0 
-r24:   9 r25:   2 r26:  63 r27:   5 r28:   3 r29:   0 r30: 141 r31:  17 
-x  :   4 y  :  22 z  :   9 
-Registers used: 19 out of 35 (54.3%)
+r16:  26 r17:  43 r18:  11 r19:   9 r20:   4 r21:   4 r22:  10 r23:   0 
+r24:  12 r25:   4 r26: 109 r27:   9 r28:  23 r29:   0 r30: 201 r31:  22 
+x  :   9 y  :  46 z  :  13 
+Registers used: 21 out of 35 (60.0%)
 
 ATtiny2313A instruction use summary:
-.lds  :   0 .lds.l:   0 .sts  :   0 .sts.l:   0 adc   :   0 add   :   1 
-adiw  :   3 and   :   3 andi  :   1 asr   :   0 bclr  :   0 bld   :   0 
-brbc  :   0 brbs  :   0 brcc  :   0 brcs  :   0 break :   0 breq  :   6 
-brge  :   2 brhc  :   0 brhs  :   0 brid  :   0 brie  :   0 brlo  :   1 
-brlt  :   0 brmi  :   0 brne  :  22 brpl  :   0 brsh  :   0 brtc  :   0 
+.lds  :   0 .lds.l:   0 .sts  :   0 .sts.l:   0 adc   :   1 add   :   7 
+adiw  :   6 and   :   4 andi  :   1 asr   :   0 bclr  :   0 bld   :   0 
+brbc  :   0 brbs  :   0 brcc  :   1 brcs  :   0 break :   0 breq  :   9 
+brge  :   4 brhc  :   0 brhs  :   0 brid  :   0 brie  :   0 brlo  :   1 
+brlt  :   1 brmi  :   0 brne  :  27 brpl  :   0 brsh  :   3 brtc  :   0 
 brts  :   0 brvc  :   0 brvs  :   0 bset  :   0 bst   :   0 cbi   :   0 
-cbr   :   0 clc   :   0 clh   :   0 cli   :   1 cln   :   0 clr   :   1 
+cbr   :   0 clc   :   0 clh   :   0 cli   :   1 cln   :   0 clr   :   6 
 cls   :   0 clt   :   0 clv   :   0 clz   :   0 com   :   1 cp    :   2 
-cpc   :  13 cpi   :  14 cpse  :   0 dec   :   4 des   :   0 eor   :   0 
+cpc   :  14 cpi   :  21 cpse  :   0 dec   :   8 des   :   0 eor   :   0 
 fmul  :   0 fmuls :   0 fmulsu:   0 icall :   0 ijmp  :   0 in    :   4 
-inc   :   0 ld    :   6 ldd   :   4 ldi   :  79 lds   :   5 lpm   :   7 
-lsl   :   2 lsr   :   0 mov   :  25 movw  :   4 mul   :   0 muls  :   0 
-mulsu :   0 neg   :   0 nop   :   0 or    :   1 ori   :   2 out   :  40 
-pop   :   0 push  :   0 rcall :  44 ret   :  15 reti  :   0 rjmp  :  49 
-rol   :   1 ror   :   0 sbc   :   0 sbci  :   2 sbi   :   4 sbic  :   1 
-sbis  :   0 sbiw  :   7 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 
+inc   :   0 ld    :  13 ldd   :  12 ldi   : 103 lds   :   5 lpm   :   7 
+lsl   :   3 lsr   :   1 mov   :  58 movw  :   6 mul   :   0 muls  :   0 
+mulsu :   0 neg   :   0 nop   :   0 or    :   2 ori   :   2 out   :  40 
+pop   :   0 push  :   0 rcall :  75 ret   :  20 reti  :   0 rjmp  :  64 
+rol   :   4 ror   :   0 sbc   :   1 sbci  :   3 sbi   :   4 sbic  :   1 
+sbis  :   0 sbiw  :  11 sbr   :   1 sbrc  :   0 sbrs  :   0 sec   :   0 
 seh   :   0 sei   :   0 sen   :   0 ser   :   0 ses   :   0 set   :   0 
-sev   :   0 sez   :   0 sleep :   0 spm   :   0 st    :  18 std   :   0 
-sts   :   4 sub   :   1 subi  :   4 swap  :   0 tst   :   2 wdr   :   1 
+sev   :   0 sez   :   0 sleep :   0 spm   :   0 st    :  36 std   :   0 
+sts   :   4 sub   :   2 subi  :  28 swap  :   0 tst   :   5 wdr   :   1 
 
-Instructions used: 41 out of 114 (36.0%)
+Instructions used: 48 out of 114 (42.1%)
 
 ATtiny2313A memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000436    832    246   1078    2048  52.6%
-[.dseg] 0x000060 0x0000bf      0     59     59     128  46.1%
+[.cseg] 0x000000 0x0005fc   1286    246   1532    2048  74.8%
+[.dseg] 0x000060 0x0000c7      0     67     67     128  52.3%
 [.eseg] 0x000000 0x000000      0      0      0     128   0.0%
 
 Assembly complete, 0 errors, 25 warnings

@@ -8,6 +8,7 @@
 #include <transmisions.h>
 #include <MAX7219.h>
 //#include <symbols.h>
+#include <setjmp.h>
 
 typedef enum
 {
@@ -51,22 +52,90 @@ Transmission_State Transmission_Get_EN(void)
 	return N;
 }
 
-//void Animation(Matrix_Symbols symbol)
-//{
-	//uint8_t new_frame[8];
-	//uint8_t symbol_source[8];
-	//uint8_t i;
-	//
-	//memset(new_frame, 0, 8);
-	//memcpy(symbol_source, GetSymbols(symbol), 8);
-	//
-	//for(i = 0; i < 7; i++)
-	//{
-		//memcpy(&new_frame[i], &symbol_source[i], 1);
-		//WriteSymbol(new_frame);
-		//delay_ms(800);
-	//}
-//}
+void Animation_HorizRows(Matrix_Symbols symbol)
+{
+	uint8_t new_frame[8];
+	uint8_t symbol_source[8];
+	uint8_t i;
+	
+	memset(new_frame, 0, 8);
+	memcpy(symbol_source, GetSymbols(symbol), 8);
+	
+	for(i = 0; i < 7; i++)
+	{
+		memcpy(new_frame, symbol_source, i + 1);
+		WriteSymbol(new_frame);
+		delay_ms(50);
+	}
+}
+
+void Animation_ProgressBar(Matrix_Symbols symbol)
+{
+	uint8_t new_frame[8];
+	uint8_t symbol_source[8];
+
+	
+	memcpy(symbol_source, GetSymbols(symbol), 8);
+	
+	
+	
+	WriteSymbol(new_frame);
+}
+
+void Animation_Cursor(Matrix_Symbols symbol)
+{
+	uint8_t new_frame[8];
+	uint8_t symbol_source[8];
+	uint8_t row, column, mask = 0x80;
+	uint8_t used_mask = 0UL;
+	
+	
+	memset(new_frame, 0, 8);
+	memcpy(symbol_source, GetSymbols(symbol), 8);
+	
+	for(row = 0; row < 7; row++)
+	{
+		for(column = 0; column < 5; column++)
+		{
+			memcpy(new_frame, symbol_source, row + 1);
+			
+			if(column == 0)
+			{
+				used_mask = mask;
+			}
+			else
+			{
+				used_mask += (64 / (1 << column-1));
+			}
+					
+			new_frame[row] &= used_mask;
+			new_frame[row] |= (0x80 >> column);
+			WriteSymbol(new_frame);
+			delay_ms(30);
+		}
+	}
+	WriteSymbol(symbol_source);
+}
+
+void Animation_SlideShow(Matrix_Symbols symbol)
+{
+	uint8_t symbol_source[8];
+	int8_t row;
+	
+	memcpy(symbol_source, GetSymbols(symbol), 8);
+	
+	for(row = 7; row >= 0; row--)
+	{
+		SendLed((row + 1), 0x00);
+		delay_ms(50);
+	}
+		
+	for(row = 0; row <= 7; row++)
+	{
+		SendLed(row + 1, symbol_source[row]);
+		delay_ms(50);
+	}
+}
 
 void Trans_Poll(void)
 {
@@ -89,8 +158,8 @@ void Trans_Poll(void)
 			{
 				WriteNum(SYMBOL_EMTY);
 				delay_ms(5);
-				//Animation(SYMBOL_R);
-				WriteNum(SYMBOL_R);
+				Animation_HorizRows(SYMBOL_R);
+				//WriteNum(SYMBOL_R);
 				break;
 			}
 			case ONE:
@@ -109,9 +178,10 @@ void Trans_Poll(void)
 			}
 			case THREE:
 			{
-				WriteNum(SYMBOL_EMTY);
+				//WriteNum(SYMBOL_EMTY);
 				delay_ms(5);
-				WriteNum(SYMBOL_THREE);
+				Animation_SlideShow(SYMBOL_THREE);
+				//WriteNum(SYMBOL_THREE);
 				break;
 			}
 			case FOUR:
@@ -125,7 +195,8 @@ void Trans_Poll(void)
 			{
 				WriteNum(SYMBOL_EMTY);
 				delay_ms(5);
-				WriteNum(SYMBOL_FIVE);
+				Animation_Cursor(SYMBOL_FIVE);
+				//WriteNum(SYMBOL_FIVE);
 				break;
 			}
 			default:

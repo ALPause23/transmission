@@ -37,7 +37,10 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
-../main.c
+../main.c \
+../MAX7219.c \
+../transmission.c \
+../USI_SPI.c
 
 
 PREPROCESSING_SRCS += 
@@ -47,16 +50,28 @@ ASM_SRCS +=
 
 
 OBJS +=  \
-main.o
+main.o \
+MAX7219.o \
+transmission.o \
+USI_SPI.o
 
 OBJS_AS_ARGS +=  \
-main.o
+main.o \
+MAX7219.o \
+transmission.o \
+USI_SPI.o
 
 C_DEPS +=  \
-main.d
+main.d \
+MAX7219.d \
+transmission.d \
+USI_SPI.d
 
 C_DEPS_AS_ARGS +=  \
-main.d
+main.d \
+MAX7219.d \
+transmission.d \
+USI_SPI.d
 
 OUTPUT_FILE_PATH +=AT_Transmittion.elf
 
@@ -75,7 +90,28 @@ LINKER_SCRIPT_DEP+=
 ./main.o: .././main.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATtiny_DFP\1.10.348\include" -I"../../../MCU_lib/Matrix"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g3 -Wall -mmcu=attiny2313a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATtiny_DFP\1.10.348\gcc\dev\attiny2313a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -D__ATTINY2313A__  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATtiny_DFP\1.10.348\include" -I"../Matrix" -I".." -I"../SPI"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g3 -Wall -mmcu=attiny2313a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATtiny_DFP\1.10.348\gcc\dev\attiny2313a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./MAX7219.o: .././MAX7219.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -D__ATTINY2313A__  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATtiny_DFP\1.10.348\include" -I"../Matrix" -I".." -I"../SPI"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g3 -Wall -mmcu=attiny2313a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATtiny_DFP\1.10.348\gcc\dev\attiny2313a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./transmission.o: .././transmission.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -D__ATTINY2313A__  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATtiny_DFP\1.10.348\include" -I"../Matrix" -I".." -I"../SPI"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g3 -Wall -mmcu=attiny2313a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATtiny_DFP\1.10.348\gcc\dev\attiny2313a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./USI_SPI.o: .././USI_SPI.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -D__ATTINY2313A__  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATtiny_DFP\1.10.348\include" -I"../Matrix" -I".." -I"../SPI"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g3 -Wall -mmcu=attiny2313a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATtiny_DFP\1.10.348\gcc\dev\attiny2313a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 

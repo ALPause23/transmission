@@ -2,6 +2,10 @@ Archive member included to satisfy reference by file (symbol)
 
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_exit.o)
                               C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATtiny_DFP/1.10.348/gcc/dev/attiny2313a/avr25/tiny-stack/crtattiny2313a.o (exit)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_copy_data.o)
+                              MAX7219.o (__do_copy_data)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_clear_bss.o)
+                              MAX7219.o (__do_clear_bss)
 
 Discarded input sections
 
@@ -18,9 +22,173 @@ Discarded input sections
  .group         0x00000000        0x8 main.o
  .group         0x00000000        0x8 main.o
  .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
  .text          0x00000000        0x0 main.o
  .data          0x00000000        0x0 main.o
  .bss           0x00000000        0x0 main.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .group         0x00000000        0x8 MAX7219.o
+ .text          0x00000000        0x0 MAX7219.o
+ .data          0x00000000        0x0 MAX7219.o
+ .bss           0x00000000        0x0 MAX7219.o
+ .text.SendLed  0x00000000       0x1a MAX7219.o
+ .text.SetIntensity
+                0x00000000        0x8 MAX7219.o
+ .text.WriteNum
+                0x00000000       0x30 MAX7219.o
+ .text.InitLed  0x00000000       0x28 MAX7219.o
+ .text.WriteSymbol
+                0x00000000       0x22 MAX7219.o
+ .text.GetSymbols
+                0x00000000       0x12 MAX7219.o
+ .rodata.symbols_ptr
+                0x00000000       0x10 MAX7219.o
+ .bss.Symbol_EMPTY
+                0x00000000        0x8 MAX7219.o
+ .data.Symbol_N
+                0x00000000        0x8 MAX7219.o
+ .data.Symbol_R
+                0x00000000        0x8 MAX7219.o
+ .data.Symbol_FIVE
+                0x00000000        0x8 MAX7219.o
+ .data.Symbol_FOUR
+                0x00000000        0x8 MAX7219.o
+ .data.Symbol_THREE
+                0x00000000        0x8 MAX7219.o
+ .data.Symbol_TWO
+                0x00000000        0x8 MAX7219.o
+ .data.Symbol_ONE
+                0x00000000        0x8 MAX7219.o
+ .debug_info    0x00000000      0x3ff MAX7219.o
+ .debug_abbrev  0x00000000      0x189 MAX7219.o
+ .debug_loc     0x00000000      0x24a MAX7219.o
+ .debug_aranges
+                0x00000000       0x48 MAX7219.o
+ .debug_ranges  0x00000000       0x38 MAX7219.o
+ .debug_macro   0x00000000      0x150 MAX7219.o
+ .debug_macro   0x00000000      0xa3c MAX7219.o
+ .debug_macro   0x00000000       0x10 MAX7219.o
+ .debug_macro   0x00000000      0x1c9 MAX7219.o
+ .debug_macro   0x00000000      0x2fc MAX7219.o
+ .debug_macro   0x00000000       0x9e MAX7219.o
+ .debug_macro   0x00000000     0x1167 MAX7219.o
+ .debug_macro   0x00000000      0x114 MAX7219.o
+ .debug_macro   0x00000000       0xa2 MAX7219.o
+ .debug_macro   0x00000000       0x34 MAX7219.o
+ .debug_macro   0x00000000       0x18 MAX7219.o
+ .debug_macro   0x00000000       0x34 MAX7219.o
+ .debug_macro   0x00000000       0x16 MAX7219.o
+ .debug_macro   0x00000000      0x166 MAX7219.o
+ .debug_macro   0x00000000       0x22 MAX7219.o
+ .debug_macro   0x00000000       0x10 MAX7219.o
+ .debug_macro   0x00000000       0x89 MAX7219.o
+ .debug_macro   0x00000000       0xe8 MAX7219.o
+ .debug_macro   0x00000000       0xf6 MAX7219.o
+ .debug_macro   0x00000000       0x33 MAX7219.o
+ .debug_macro   0x00000000       0x16 MAX7219.o
+ .debug_macro   0x00000000       0x35 MAX7219.o
+ .debug_macro   0x00000000       0x10 MAX7219.o
+ .debug_line    0x00000000      0x41d MAX7219.o
+ .debug_str     0x00000000     0x815d MAX7219.o
+ .comment       0x00000000       0x31 MAX7219.o
+ .debug_frame   0x00000000       0xa0 MAX7219.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .group         0x00000000        0x8 transmission.o
+ .text          0x00000000        0x0 transmission.o
+ .data          0x00000000        0x0 transmission.o
+ .bss           0x00000000        0x0 transmission.o
+ .text.Transmission_Get_EN
+                0x00000000       0x30 transmission.o
+ .text.Trans_Poll
+                0x00000000       0xba transmission.o
+ .bss.count_delay.2121
+                0x00000000        0x1 transmission.o
+ .data.matrix_status.2120
+                0x00000000        0x1 transmission.o
+ .data.matrix_status_new.2119
+                0x00000000        0x1 transmission.o
+ .debug_info    0x00000000      0x4e4 transmission.o
+ .debug_abbrev  0x00000000      0x15e transmission.o
+ .debug_loc     0x00000000       0x40 transmission.o
+ .debug_aranges
+                0x00000000       0x28 transmission.o
+ .debug_ranges  0x00000000       0x18 transmission.o
+ .debug_macro   0x00000000      0x11a transmission.o
+ .debug_macro   0x00000000      0xa3c transmission.o
+ .debug_macro   0x00000000       0x10 transmission.o
+ .debug_macro   0x00000000      0x1c9 transmission.o
+ .debug_macro   0x00000000      0x2fc transmission.o
+ .debug_macro   0x00000000       0x9e transmission.o
+ .debug_macro   0x00000000     0x1167 transmission.o
+ .debug_macro   0x00000000      0x114 transmission.o
+ .debug_macro   0x00000000       0xa2 transmission.o
+ .debug_macro   0x00000000       0x34 transmission.o
+ .debug_macro   0x00000000       0x18 transmission.o
+ .debug_macro   0x00000000       0x34 transmission.o
+ .debug_macro   0x00000000       0x16 transmission.o
+ .debug_macro   0x00000000      0x166 transmission.o
+ .debug_macro   0x00000000       0x22 transmission.o
+ .debug_macro   0x00000000       0x10 transmission.o
+ .debug_macro   0x00000000       0x89 transmission.o
+ .debug_macro   0x00000000       0xe8 transmission.o
+ .debug_macro   0x00000000       0xf6 transmission.o
+ .debug_macro   0x00000000       0x33 transmission.o
+ .debug_macro   0x00000000       0x16 transmission.o
+ .debug_macro   0x00000000       0x35 transmission.o
+ .debug_macro   0x00000000       0x10 transmission.o
+ .debug_line    0x00000000      0x43c transmission.o
+ .debug_str     0x00000000     0x80e7 transmission.o
+ .comment       0x00000000       0x31 transmission.o
+ .debug_frame   0x00000000       0x34 transmission.o
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_exit.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_exit.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_exit.o)
@@ -37,6 +205,38 @@ Discarded input sections
                 0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_exit.o)
  .text.libgcc.fixed
                 0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_exit.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_copy_data.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_copy_data.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_copy_data.o)
+ .text.libgcc.mul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_copy_data.o)
+ .text.libgcc.div
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_copy_data.o)
+ .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_copy_data.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_copy_data.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_copy_data.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_copy_data.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_copy_data.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_clear_bss.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_clear_bss.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_clear_bss.o)
+ .text.libgcc.mul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_clear_bss.o)
+ .text.libgcc.div
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_clear_bss.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_clear_bss.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_clear_bss.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_clear_bss.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_clear_bss.o)
 
 Memory Configuration
 
@@ -54,6 +254,8 @@ Linker script and memory map
 
 LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATtiny_DFP/1.10.348/gcc/dev/attiny2313a/avr25/tiny-stack/crtattiny2313a.o
 LOAD main.o
+LOAD MAX7219.o
+LOAD transmission.o
 START GROUP
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr25/tiny-stack\libm.a
 END GROUP
@@ -163,7 +365,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000       0x84
+.text           0x00000000       0xac
  *(.vectors)
  .vectors       0x00000000       0x2a C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATtiny_DFP/1.10.348/gcc/dev/attiny2313a/avr25/tiny-stack/crtattiny2313a.o
                 0x00000000                __vector_default
@@ -204,6 +406,10 @@ END GROUP
  *(.init3)
  *(.init3)
  *(.init4)
+ .init4         0x00000032       0x16 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_copy_data.o)
+                0x00000032                __do_copy_data
+ .init4         0x00000048       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_clear_bss.o)
+                0x00000048                __do_clear_bss
  *(.init4)
  *(.init5)
  *(.init5)
@@ -214,43 +420,43 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x00000032        0x4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATtiny_DFP/1.10.348/gcc/dev/attiny2313a/avr25/tiny-stack/crtattiny2313a.o
+ .init9         0x00000058        0x4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATtiny_DFP/1.10.348/gcc/dev/attiny2313a/avr25/tiny-stack/crtattiny2313a.o
  *(.init9)
  *(.text)
- .text          0x00000036        0x2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATtiny_DFP/1.10.348/gcc/dev/attiny2313a/avr25/tiny-stack/crtattiny2313a.o
-                0x00000036                __vector_1
-                0x00000036                __vector_12
-                0x00000036                __bad_interrupt
-                0x00000036                __vector_6
-                0x00000036                __vector_3
-                0x00000036                __vector_11
-                0x00000036                __vector_13
-                0x00000036                __vector_17
-                0x00000036                __vector_19
-                0x00000036                __vector_7
-                0x00000036                __vector_5
-                0x00000036                __vector_4
-                0x00000036                __vector_9
-                0x00000036                __vector_2
-                0x00000036                __vector_15
-                0x00000036                __vector_8
-                0x00000036                __vector_14
-                0x00000036                __vector_10
-                0x00000036                __vector_16
-                0x00000036                __vector_18
-                0x00000036                __vector_20
-                0x00000038                . = ALIGN (0x2)
+ .text          0x0000005c        0x2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATtiny_DFP/1.10.348/gcc/dev/attiny2313a/avr25/tiny-stack/crtattiny2313a.o
+                0x0000005c                __vector_1
+                0x0000005c                __vector_12
+                0x0000005c                __bad_interrupt
+                0x0000005c                __vector_6
+                0x0000005c                __vector_3
+                0x0000005c                __vector_11
+                0x0000005c                __vector_13
+                0x0000005c                __vector_17
+                0x0000005c                __vector_19
+                0x0000005c                __vector_7
+                0x0000005c                __vector_5
+                0x0000005c                __vector_4
+                0x0000005c                __vector_9
+                0x0000005c                __vector_2
+                0x0000005c                __vector_15
+                0x0000005c                __vector_8
+                0x0000005c                __vector_14
+                0x0000005c                __vector_10
+                0x0000005c                __vector_16
+                0x0000005c                __vector_18
+                0x0000005c                __vector_20
+                0x0000005e                . = ALIGN (0x2)
  *(.text.*)
  .text.initialize_defolt
-                0x00000038       0x44 main.o
-                0x00000038                initialize_defolt
- .text.main     0x0000007c        0x4 main.o
-                0x0000007c                main
-                0x00000080                . = ALIGN (0x2)
+                0x0000005e       0x44 main.o
+                0x0000005e                initialize_defolt
+ .text.main     0x000000a2        0x6 main.o
+                0x000000a2                main
+                0x000000a8                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000080        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_exit.o)
-                0x00000080                _exit
-                0x00000080                exit
+ .fini9         0x000000a8        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_exit.o)
+                0x000000a8                _exit
+                0x000000a8                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -269,12 +475,12 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000080        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_exit.o)
+ .fini0         0x000000a8        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr25/tiny-stack\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000084                _etext = .
+                0x000000ac                _etext = .
 
-.data           0x00800060        0x0 load address 0x00000084
-                [!provide]                PROVIDE (__data_start, .)
+.data           0x00800060        0x0 load address 0x000000ac
+                0x00800060                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
  *(.gnu.linkonce.d*)
@@ -283,16 +489,16 @@ END GROUP
  *(.gnu.linkonce.r*)
                 0x00800060                . = ALIGN (0x2)
                 0x00800060                _edata = .
-                [!provide]                PROVIDE (__data_end, .)
+                0x00800060                PROVIDE (__data_end, .)
 
 .bss            0x00800060        0x0
-                [!provide]                PROVIDE (__bss_start, .)
+                0x00800060                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  *(COMMON)
-                [!provide]                PROVIDE (__bss_end, .)
-                0x00000084                __data_load_start = LOADADDR (.data)
-                0x00000084                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00800060                PROVIDE (__bss_end, .)
+                0x000000ac                __data_load_start = LOADADDR (.data)
+                0x000000ac                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800060        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
@@ -371,30 +577,30 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x502
+.debug_info     0x00000000      0x51c
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x456 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATtiny_DFP/1.10.348/gcc/dev/attiny2313a/avr25/tiny-stack/crtattiny2313a.o
- .debug_info    0x00000456       0xac main.o
+ .debug_info    0x00000456       0xc6 main.o
 
-.debug_abbrev   0x00000000      0x497
+.debug_abbrev   0x00000000      0x4ab
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x41b C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATtiny_DFP/1.10.348/gcc/dev/attiny2313a/avr25/tiny-stack/crtattiny2313a.o
- .debug_abbrev  0x0000041b       0x7c main.o
+ .debug_abbrev  0x0000041b       0x90 main.o
 
-.debug_line     0x00000000      0x3fe
+.debug_line     0x00000000      0x4f3
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x10c C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATtiny_DFP/1.10.348/gcc/dev/attiny2313a/avr25/tiny-stack/crtattiny2313a.o
- .debug_line    0x0000010c      0x2f2 main.o
+ .debug_line    0x0000010c      0x3e7 main.o
 
 .debug_frame    0x00000000       0x34
  *(.debug_frame)
  .debug_frame   0x00000000       0x34 main.o
 
-.debug_str      0x00000000     0x636f
+.debug_str      0x00000000     0x7f40
  *(.debug_str)
  .debug_str     0x00000000      0x17b C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATtiny_DFP/1.10.348/gcc/dev/attiny2313a/avr25/tiny-stack/crtattiny2313a.o
- .debug_str     0x0000017b     0x61f4 main.o
-                               0x62d7 (size before relaxing)
+ .debug_str     0x0000017b     0x7dc5 main.o
+                               0x7fa2 (size before relaxing)
 
 .debug_loc
  *(.debug_loc)
@@ -421,19 +627,29 @@ END GROUP
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x18 main.o
 
-.debug_macro    0x00000000     0x23c7
+.debug_macro    0x00000000     0x28f6
  *(.debug_macro)
- .debug_macro   0x00000000       0x87 main.o
- .debug_macro   0x00000087      0xa30 main.o
- .debug_macro   0x00000ab7       0x10 main.o
- .debug_macro   0x00000ac7      0x1c9 main.o
- .debug_macro   0x00000c90      0x2fc main.o
- .debug_macro   0x00000f8c       0x9e main.o
- .debug_macro   0x0000102a     0x1167 main.o
- .debug_macro   0x00002191      0x114 main.o
- .debug_macro   0x000022a5       0xa2 main.o
- .debug_macro   0x00002347       0x34 main.o
- .debug_macro   0x0000237b       0x18 main.o
- .debug_macro   0x00002393       0x34 main.o
+ .debug_macro   0x00000000      0x117 main.o
+ .debug_macro   0x00000117      0xa3c main.o
+ .debug_macro   0x00000b53       0x10 main.o
+ .debug_macro   0x00000b63      0x1c9 main.o
+ .debug_macro   0x00000d2c      0x2fc main.o
+ .debug_macro   0x00001028       0x9e main.o
+ .debug_macro   0x000010c6     0x1167 main.o
+ .debug_macro   0x0000222d      0x114 main.o
+ .debug_macro   0x00002341       0xa2 main.o
+ .debug_macro   0x000023e3       0x34 main.o
+ .debug_macro   0x00002417       0x18 main.o
+ .debug_macro   0x0000242f       0x34 main.o
+ .debug_macro   0x00002463       0x16 main.o
+ .debug_macro   0x00002479      0x166 main.o
+ .debug_macro   0x000025df       0x22 main.o
+ .debug_macro   0x00002601       0x10 main.o
+ .debug_macro   0x00002611       0x89 main.o
+ .debug_macro   0x0000269a       0xe8 main.o
+ .debug_macro   0x00002782       0xf6 main.o
+ .debug_macro   0x00002878       0x33 main.o
+ .debug_macro   0x000028ab       0x16 main.o
+ .debug_macro   0x000028c1       0x35 main.o
 OUTPUT(AT_Transmittion.elf elf32-avr)
 LOAD linker stubs

@@ -7,16 +7,24 @@
 
 #include <avr/io.h>
 
-//#define F_CPU 8000000UL
-//#include <tiny2313a.h>
+#define F_CPU 8000000UL
+#define __ATTINY2313A__
+		//#include <stdio.h>
+		//#include <avr/io.h>
+		//#include <stdlib.h>
+		//#include <util/delay.h>
+		//#include <avr/interrupt.h>
+		//#include <avr/eeprom.h>
+		//#include <avr/pgmspace.h>
 //#include <MAX7219.h>
 //#include <delay.h>
 //#include <stdbool.h>
 //#include <stdint.h>
-//#include "common.h"
+#include "common.h"
 //#include <stdlib.h>
 //#include <MAX7219.h>
 //#include "transmisions.h"
+#include <USI_SPI.h>
 
 
 void initialize_defolt(void);
@@ -127,7 +135,7 @@ int main(void)
 {
 
 	initialize_defolt();
-	//SPI_Init();
+	SPI_Init();
 	//GPIO_Set_Bits(GPIO_Pin_4);
 	
 	//InitLed();
