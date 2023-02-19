@@ -12,8 +12,8 @@
 ;(s)printf features     : int, width
 ;(s)scanf features      : int, width
 ;External RAM size      : 0
-;Data Stack size        : 36 byte(s)
-;Heap size              : 8 byte(s)
+;Data Stack size        : 38 byte(s)
+;Heap size              : 0 byte(s)
 ;Promote 'char' to 'int': Yes
 ;'char' is unsigned     : Yes
 ;8 bit enums            : Yes
@@ -87,8 +87,8 @@
 
 	.EQU __SRAM_START=0x0060
 	.EQU __SRAM_END=0x00DF
-	.EQU __DSTACK_SIZE=0x0024
-	.EQU __HEAP_SIZE=0x0008
+	.EQU __DSTACK_SIZE=0x0026
+	.EQU __HEAP_SIZE=0x0000
 	.EQU __CLEAR_SRAM_SIZE=__SRAM_END-__SRAM_START+1
 
 	.MACRO __CPD1N
@@ -1036,10 +1036,6 @@ __START_OF_CODE:
 __REG_VARS:
 	.DB  0x6,0x32
 
-;HEAP START MARKER INITIALIZATION
-__HEAP_START_MARKER:
-	.DW  0,0
-
 _0x3:
 	.DB  0x20,0x60,0x20,0x20,0x20,0x20,0x70
 _0x4:
@@ -1082,19 +1078,18 @@ _0x80008:
 	.DB  0xF0,0x88,0x88,0xF0,0xA0,0x90,0x88
 _0x80009:
 	.DB  0x88,0x88,0xC8,0xA8,0x98,0x88,0x88
-_0x8001F:
+_0x80011:
+	.DB  0x6,0x5,0x4,0x13,0x23,0x33,0x44,0x45
+	.DB  0x46,0x37,0x27,0x17
+_0x80026:
 	.DB  0xFE
-_0x80020:
+_0x80027:
 	.DB  0xFE
 
 __GLOBAL_INI_TBL:
 	.DW  0x02
 	.DW  0x02
 	.DW  __REG_VARS*2
-
-	.DW  0x04
-	.DW  0xD8
-	.DW  __HEAP_START_MARKER*2
 
 	.DW  0x07
 	.DW  _Symbol_ONE_G002
@@ -1126,11 +1121,11 @@ __GLOBAL_INI_TBL:
 
 	.DW  0x01
 	.DW  _matrix_status_new_S0040005000
-	.DW  _0x8001F*2
+	.DW  _0x80026*2
 
 	.DW  0x01
 	.DW  _matrix_status_S0040005000
-	.DW  _0x80020*2
+	.DW  _0x80027*2
 
 _0xFFFFFFFF:
 	.DW  0
@@ -1203,7 +1198,7 @@ __GLOBAL_INI_END:
 	.ORG 0x00
 
 	.DSEG
-	.ORG 0x84
+	.ORG 0x86
 
 	.CSEG
 ;#define F_CPU 8000000UL
@@ -1556,11 +1551,12 @@ _SendLed:
 	RJMP _0x2060002
 ; .FEND
 ;
+;
 ;void SetIntensity(uint8_t a)  // 0 down to 15
-; 0002 0034 {
+; 0002 0035 {
 _SetIntensity:
 ; .FSTART _SetIntensity
-; 0002 0035 	SendLed((INTENSITY >> 8), (SHUTDOWN | a));
+; 0002 0036 	SendLed((INTENSITY >> 8), (SHUTDOWN | a));
 	ST   -Y,R17
 	MOV  R17,R26
 ;	a -> R17
@@ -1569,18 +1565,18 @@ _SetIntensity:
 	MOV  R30,R17
 	MOV  R26,R30
 	RCALL _SendLed
-; 0002 0036 }
+; 0002 0037 }
 	RJMP _0x2060004
 ; .FEND
 ;
 ;void WriteNum(Matrix_Symbols num)
-; 0002 0039 {
+; 0002 003A {
 _WriteNum:
 ; .FSTART _WriteNum
-; 0002 003A 	uint8_t* s_ptr = NULL;
-; 0002 003B 	int i;
-; 0002 003C 
-; 0002 003D 	s_ptr = GetSymbols(num);
+; 0002 003B 	uint8_t* s_ptr = NULL;
+; 0002 003C 	int i;
+; 0002 003D 
+; 0002 003E 	s_ptr = GetSymbols(num);
 	RCALL __SAVELOCR4
 	MOV  R16,R26
 ;	num -> R16
@@ -1589,14 +1585,14 @@ _WriteNum:
 	LDI  R17,0
 	RCALL _GetSymbols
 	MOV  R17,R30
-; 0002 003E 
-; 0002 003F 	for(i = 0; i < 8; i++)
+; 0002 003F 
+; 0002 0040 	for(i = 0; i < 8; i++)
 	__GETWRN 18,19,0
 _0x4000B:
 	__CPWRN 18,19,8
 	BRGE _0x4000C
-; 0002 0040 	{
-; 0002 0041 		SendLed((i + 1), s_ptr[i]);
+; 0002 0041 	{
+; 0002 0042 		SendLed((i + 1), s_ptr[i]);
 	MOV  R30,R18
 	SUBI R30,-LOW(1)
 	ST   -Y,R30
@@ -1604,21 +1600,21 @@ _0x4000B:
 	ADD  R30,R17
 	LD   R26,Z
 	RCALL _SendLed
-; 0002 0042 	}
+; 0002 0043 	}
 	__ADDWRN 18,19,1
 	RJMP _0x4000B
 _0x4000C:
-; 0002 0043 }
+; 0002 0044 }
 	RJMP _0x2060006
 ; .FEND
 ;
 ;void WriteSymbol(uint8_t* num)
-; 0002 0046 {
+; 0002 0047 {
 _WriteSymbol:
 ; .FSTART _WriteSymbol
-; 0002 0047 	int i;
-; 0002 0048 
-; 0002 0049 	for(i = 0; i < 8; i++)
+; 0002 0048 	int i;
+; 0002 0049 
+; 0002 004A 	for(i = 0; i < 8; i++)
 	RCALL __SAVELOCR4
 	MOV  R19,R26
 ;	*num -> R19
@@ -1627,8 +1623,8 @@ _WriteSymbol:
 _0x4000E:
 	__CPWRN 16,17,8
 	BRGE _0x4000F
-; 0002 004A 	{
-; 0002 004B 		SendLed((i + 1), num[i]);
+; 0002 004B 	{
+; 0002 004C 		SendLed((i + 1), num[i]);
 	MOV  R30,R16
 	SUBI R30,-LOW(1)
 	ST   -Y,R30
@@ -1636,11 +1632,11 @@ _0x4000E:
 	ADD  R30,R19
 	LD   R26,Z
 	RCALL _SendLed
-; 0002 004C 	}
+; 0002 004D 	}
 	__ADDWRN 16,17,1
 	RJMP _0x4000E
 _0x4000F:
-; 0002 004D }
+; 0002 004E }
 _0x2060006:
 	RCALL __LOADLOCR4
 	ADIW R28,4
@@ -1649,99 +1645,99 @@ _0x2060006:
 ;
 ;
 ;uint8_t *GetSymbols(Matrix_Symbols i)
-; 0002 0051 {
+; 0002 0052 {
 _GetSymbols:
 ; .FSTART _GetSymbols
-; 0002 0052 	//return symbols_ptr[i];
-; 0002 0053 	switch (i)
+; 0002 0053 	//return symbols_ptr[i];
+; 0002 0054 	switch (i)
 	ST   -Y,R17
 	MOV  R17,R26
 ;	i -> R17
 	MOV  R30,R17
 	LDI  R31,0
-; 0002 0054 	{
-; 0002 0055 		case SYMBOL_R:
+; 0002 0055 	{
+; 0002 0056 		case SYMBOL_R:
 	SBIW R30,0
 	BRNE _0x40013
-; 0002 0056 		{
-; 0002 0057 			return Symbol_R;
+; 0002 0057 		{
+; 0002 0058 			return Symbol_R;
 	LDI  R30,LOW(_Symbol_R_G002)
 	RJMP _0x2060004
-; 0002 0058 		}
-; 0002 0059 		case SYMBOL_ONE:
+; 0002 0059 		}
+; 0002 005A 		case SYMBOL_ONE:
 _0x40013:
 	CPI  R30,LOW(0x1)
 	LDI  R26,HIGH(0x1)
 	CPC  R31,R26
 	BRNE _0x40014
-; 0002 005A 		{
-; 0002 005B 			return Symbol_ONE;
+; 0002 005B 		{
+; 0002 005C 			return Symbol_ONE;
 	LDI  R30,LOW(_Symbol_ONE_G002)
 	RJMP _0x2060004
-; 0002 005C 		}
-; 0002 005D 		case SYMBOL_TWO:
+; 0002 005D 		}
+; 0002 005E 		case SYMBOL_TWO:
 _0x40014:
 	CPI  R30,LOW(0x2)
 	LDI  R26,HIGH(0x2)
 	CPC  R31,R26
 	BRNE _0x40015
-; 0002 005E 		{
-; 0002 005F 			return Symbol_TWO;
+; 0002 005F 		{
+; 0002 0060 			return Symbol_TWO;
 	LDI  R30,LOW(_Symbol_TWO_G002)
 	RJMP _0x2060004
-; 0002 0060 		}
-; 0002 0061 		case SYMBOL_THREE:
+; 0002 0061 		}
+; 0002 0062 		case SYMBOL_THREE:
 _0x40015:
 	CPI  R30,LOW(0x3)
 	LDI  R26,HIGH(0x3)
 	CPC  R31,R26
 	BRNE _0x40016
-; 0002 0062 		{
-; 0002 0063 			return Symbol_THREE;
+; 0002 0063 		{
+; 0002 0064 			return Symbol_THREE;
 	LDI  R30,LOW(_Symbol_THREE_G002)
 	RJMP _0x2060004
-; 0002 0064 		}
-; 0002 0065 		case SYMBOL_FOUR:
+; 0002 0065 		}
+; 0002 0066 		case SYMBOL_FOUR:
 _0x40016:
 	CPI  R30,LOW(0x4)
 	LDI  R26,HIGH(0x4)
 	CPC  R31,R26
 	BRNE _0x40017
-; 0002 0066 		{
-; 0002 0067 			return Symbol_FOUR;
+; 0002 0067 		{
+; 0002 0068 			return Symbol_FOUR;
 	LDI  R30,LOW(_Symbol_FOUR_G002)
 	RJMP _0x2060004
-; 0002 0068 		}
-; 0002 0069 		case SYMBOL_FIVE:
+; 0002 0069 		}
+; 0002 006A 		case SYMBOL_FIVE:
 _0x40017:
 	CPI  R30,LOW(0x5)
 	LDI  R26,HIGH(0x5)
 	CPC  R31,R26
 	BRNE _0x40018
-; 0002 006A 		{
-; 0002 006B 			return Symbol_FIVE;
+; 0002 006B 		{
+; 0002 006C 			return Symbol_FIVE;
 	LDI  R30,LOW(_Symbol_FIVE_G002)
 	RJMP _0x2060004
-; 0002 006C 		}
-; 0002 006D 		case SYMBOL_N:
+; 0002 006D 		}
+; 0002 006E 		case SYMBOL_N:
 _0x40018:
 	CPI  R30,LOW(0x6)
 	LDI  R26,HIGH(0x6)
 	CPC  R31,R26
 	BRNE _0x4001A
-; 0002 006E 		{
-; 0002 006F 			return Symbol_N;
+; 0002 006F 		{
+; 0002 0070 			return Symbol_N;
 	LDI  R30,LOW(_Symbol_N_G002)
 	RJMP _0x2060004
-; 0002 0070 		}
-; 0002 0071 		default: return Symbol_EMPTY;
+; 0002 0071 		}
+; 0002 0072 		default: return Symbol_EMPTY;
 _0x4001A:
 	LDI  R30,LOW(_Symbol_EMPTY_G002)
 	RJMP _0x2060004
-; 0002 0072 	}
-; 0002 0073 
-; 0002 0074 	return 0;
-; 0002 0075 }
+; 0002 0073 	}
+; 0002 0074 
+; 0002 0075 	return 0;
+; 0002 0076 }
 ; .FEND
 ;
 ;
@@ -1827,38 +1823,49 @@ _SPI_Init:
 ; .FEND
 ;
 ;void SPI_SendByte(uint8_t byte)
-; 0003 002B 
-; 0003 002C {
+; 0003 002B {
 _SPI_SendByte:
 ; .FSTART _SPI_SendByte
-; 0003 002D 	USIDR = byte; //данные в регистр
+; 0003 002C 	USIDR = byte; //данные в регистр
 	ST   -Y,R17
 	MOV  R17,R26
 ;	byte -> R17
 	OUT  0xF,R17
-; 0003 002E 	USISR |= (1<<USIOIF);//установим флаг начала передачи
+; 0003 002D 	USISR |= (1<<USIOIF);//установим флаг начала передачи
 	SBI  0xE,6
-; 0003 002F 	//SPI_CS_Down();
-; 0003 0030 	while(!(USISR & (1<<USIOIF)))
+; 0003 002E 	//SPI_CS_Down();
+; 0003 002F 	while(!(USISR & (1<<USIOIF)))
 _0x60003:
 	SBIC 0xE,6
 	RJMP _0x60005
-; 0003 0031 
-; 0003 0032 	{
-; 0003 0033 		USICR |= ((1<<USIWM0)|(1<<USICS1)|(1<<USICLK)|(1<<USITC));//постепенно передаем байт
+; 0003 0030 
+; 0003 0031 	{
+; 0003 0032 		USICR |= ((1<<USIWM0)|(1<<USICS1)|(1<<USICLK)|(1<<USITC));//постепенно передаем байт
 	IN   R30,0xD
 	ORI  R30,LOW(0x1B)
 	OUT  0xD,R30
-; 0003 0034 		//delay_us(10);
-; 0003 0035 	}
+; 0003 0033 		//delay_us(10);
+; 0003 0034 	}
 	RJMP _0x60003
 _0x60005:
-; 0003 0036 	//SPI_CS_Up();
-; 0003 0037 }
+; 0003 0035 	//SPI_CS_Up();
+; 0003 0036 }
 _0x2060004:
 	LD   R17,Y+
 	RET
 ; .FEND
+;
+;uint8_t SPI_ReadByte(uint8_t data)
+; 0003 0039 {
+; 0003 003A 	//uint8_t report;
+; 0003 003B 	//SPI_PORTX &= ~(1<<SPI_SS);
+; 0003 003C 	//SPDR = data;
+; 0003 003D 	//while(!(SPSR & (1<<SPIF)));
+; 0003 003E 	//report = SPDR;
+; 0003 003F 	//SPI_PORTX |= (1<<SPI_SS);
+; 0003 0040 	return 0; //report
+;	data -> R17
+; 0003 0041 }
 ;/*
 ; * transmission.c
 ; *
@@ -1894,6 +1901,8 @@ _0x2060004:
 ;
 ;}Transmission_State;
 ;
+;//static uint8_t old_frame[8];
+;
 ;//bool Get_State_Transmision(uint8_t num_trans)
 ;//{
 ;	//return GPIO_Read_Bits(PD, num_trans);
@@ -1911,13 +1920,13 @@ _0x2060004:
 ;//};
 ;
 ;Transmission_State Transmission_Get_EN(void)
-; 0004 002B {
+; 0004 002D {
 
 	.CSEG
 _Transmission_Get_EN:
 ; .FSTART _Transmission_Get_EN
-; 0004 002C 	int i = 0;
-; 0004 002D 	for(i = 0; i <= 5; i++)
+; 0004 002E 	int i = 0;
+; 0004 002F 	for(i = 0; i <= 5; i++)
 	RCALL __SAVELOCR2
 ;	i -> R16,R17
 	__GETWRN 16,17,0
@@ -1925,8 +1934,8 @@ _Transmission_Get_EN:
 _0x8000B:
 	__CPWRN 16,17,6
 	BRGE _0x8000C
-; 0004 002E 	{
-; 0004 002F 		if((PINB & (1<<i)) == 0)
+; 0004 0030 	{
+; 0004 0031 		if((PINB & (1<<i)) == 0)
 	IN   R22,22
 	MOV  R30,R16
 	LDI  R26,LOW(1)
@@ -1938,34 +1947,34 @@ _0x8000B:
 	AND  R31,R27
 	SBIW R30,0
 	BRNE _0x8000D
-; 0004 0030 		{
-; 0004 0031 			return i;
+; 0004 0032 		{
+; 0004 0033 			return i;
 	MOV  R30,R16
 	RJMP _0x2060003
-; 0004 0032 		}
-; 0004 0033 	}
+; 0004 0034 		}
+; 0004 0035 	}
 _0x8000D:
 	__ADDWRN 16,17,1
 	RJMP _0x8000B
 _0x8000C:
-; 0004 0034 	return N;
+; 0004 0036 	return N;
 	LDI  R30,LOW(255)
 _0x2060003:
 	LD   R16,Y+
 	LD   R17,Y+
 	RET
-; 0004 0035 }
+; 0004 0037 }
 ; .FEND
 ;
 ;void Animation_HorizRows(Matrix_Symbols symbol)
-; 0004 0038 {
+; 0004 003A {
 _Animation_HorizRows:
 ; .FSTART _Animation_HorizRows
-; 0004 0039 	uint8_t new_frame[8];
-; 0004 003A 	uint8_t symbol_source[8];
-; 0004 003B 	uint8_t i;
-; 0004 003C 
-; 0004 003D 	memset(new_frame, 0, 8);
+; 0004 003B 	uint8_t new_frame[8];
+; 0004 003C 	uint8_t symbol_source[8];
+; 0004 003D 	uint8_t i;
+; 0004 003E 
+; 0004 003F 	memset(new_frame, 0, 8);
 	SBIW R28,16
 	RCALL __SAVELOCR2
 	MOV  R16,R26
@@ -1976,66 +1985,139 @@ _Animation_HorizRows:
 	MOV  R30,R28
 	SUBI R30,-(10)
 	RCALL SUBOPT_0x4
-; 0004 003E 	memcpy(symbol_source, GetSymbols(symbol), 8);
+; 0004 0040 	memcpy(symbol_source, GetSymbols(symbol), 8);
 	RCALL SUBOPT_0x5
-; 0004 003F 
-; 0004 0040 	for(i = 0; i < 7; i++)
-	LDI  R17,LOW(0)
+; 0004 0041 
+; 0004 0042 	for(i = 0; i < 7; i++)
 _0x8000F:
 	CPI  R17,7
 	BRSH _0x80010
-; 0004 0041 	{
-; 0004 0042 		memcpy(new_frame, symbol_source, i + 1);
+; 0004 0043 	{
+; 0004 0044 		memcpy(new_frame, symbol_source, i + 1);
 	MOV  R30,R28
 	SUBI R30,-(10)
 	ST   -Y,R30
 	MOV  R30,R28
 	SUBI R30,-(3)
 	RCALL SUBOPT_0x6
-; 0004 0043 		WriteSymbol(new_frame);
+; 0004 0045 		WriteSymbol(new_frame);
 	MOV  R26,R28
 	SUBI R26,-(10)
 	RCALL _WriteSymbol
-; 0004 0044 		delay_ms(50);
-	LDI  R26,LOW(50)
+; 0004 0046 		delay_ms(80);
+	LDI  R26,LOW(80)
 	RCALL SUBOPT_0x0
-; 0004 0045 	}
+; 0004 0047 	}
 	SUBI R17,-1
 	RJMP _0x8000F
 _0x80010:
-; 0004 0046 }
+; 0004 0048 }
 	RCALL __LOADLOCR2
 	ADIW R28,18
 	RET
 ; .FEND
 ;
 ;void Animation_ProgressBar(Matrix_Symbols symbol)
-; 0004 0049 {
-; 0004 004A 	uint8_t new_frame[8];
-; 0004 004B 	uint8_t symbol_source[8];
-; 0004 004C 
-; 0004 004D 
-; 0004 004E 	memcpy(symbol_source, GetSymbols(symbol), 8);
-;	symbol -> R17
-;	new_frame -> Y+9
-;	symbol_source -> Y+1
+; 0004 004B {
+_Animation_ProgressBar:
+; .FSTART _Animation_ProgressBar
+; 0004 004C 	uint8_t symbol_source[8];
+; 0004 004D 	uint8_t cycle, i;
+; 0004 004E 
 ; 0004 004F 
-; 0004 0050 
-; 0004 0051 
-; 0004 0052 	WriteSymbol(new_frame);
-; 0004 0053 }
+; 0004 0050 	uint8_t data_send = 0;
+; 0004 0051 	uint8_t addr_t = 0;
+; 0004 0052 
+; 0004 0053 	uint8_t route[12] = {0x06, 0x05, 0x04, 0x13, 0x23, 0x33, 0x44, 0x45, 0x46, 0x37, 0x27, 0x17};
+; 0004 0054 
+; 0004 0055 	memcpy(symbol_source, GetSymbols(symbol), 8);
+	SBIW R28,20
+	LDI  R24,12
+	LDI  R22,0
+	LDI  R30,LOW(_0x80011*2)
+	LDI  R31,HIGH(_0x80011*2)
+	RCALL __INITLOCB
+	RCALL __SAVELOCR6
+	MOV  R21,R26
+;	symbol -> R21
+;	symbol_source -> Y+18
+;	cycle -> R17
+;	i -> R16
+;	data_send -> R19
+;	addr_t -> R18
+;	route -> Y+6
+	LDI  R19,0
+	LDI  R18,0
+	MOV  R30,R28
+	SUBI R30,-(18)
+	RCALL SUBOPT_0x7
+; 0004 0056 
+; 0004 0057 	for (cycle = 0; cycle < 10; cycle++ )
+_0x80013:
+	CPI  R17,10
+	BRSH _0x80014
+; 0004 0058 	{
+; 0004 0059 		for(i = 0; i < 12; i++)
+	LDI  R16,LOW(0)
+_0x80016:
+	CPI  R16,12
+	BRSH _0x80017
+; 0004 005A 		{
+; 0004 005B 			addr_t = (route[i] >> 4) + 1;
+	RCALL SUBOPT_0x8
+	SWAP R30
+	ANDI R30,0xF
+	SUBI R30,-LOW(1)
+	MOV  R18,R30
+; 0004 005C 			data_send = 1 << (route[i] & 0x0F);
+	RCALL SUBOPT_0x8
+	ANDI R30,LOW(0xF)
+	LDI  R26,LOW(1)
+	RCALL __LSLB12
+	MOV  R19,R30
+; 0004 005D 			SendLed(addr_t, data_send);
+	ST   -Y,R18
+	MOV  R26,R19
+	RCALL _SendLed
+; 0004 005E 			delay_ms(50);
+	LDI  R26,LOW(50)
+	RCALL SUBOPT_0x0
+; 0004 005F 			SendLed(addr_t, 0x00);
+	ST   -Y,R18
+	LDI  R26,LOW(0)
+	RCALL _SendLed
+; 0004 0060 		}
+	SUBI R16,-1
+	RJMP _0x80016
+_0x80017:
+; 0004 0061 	}
+	SUBI R17,-1
+	RJMP _0x80013
+_0x80014:
+; 0004 0062 
+; 0004 0063 
+; 0004 0064 
+; 0004 0065 	WriteSymbol(symbol_source);
+	MOV  R26,R28
+	SUBI R26,-(18)
+	RCALL _WriteSymbol
+; 0004 0066 }
+	RCALL __LOADLOCR6
+	ADIW R28,26
+	RET
+; .FEND
 ;
 ;void Animation_Cursor(Matrix_Symbols symbol)
-; 0004 0056 {
+; 0004 0069 {
 _Animation_Cursor:
 ; .FSTART _Animation_Cursor
-; 0004 0057 	uint8_t new_frame[8];
-; 0004 0058 	uint8_t symbol_source[8];
-; 0004 0059 	uint8_t row, column, mask = 0x80;
-; 0004 005A 	uint8_t used_mask = 0UL;
-; 0004 005B 
-; 0004 005C 
-; 0004 005D 	memset(new_frame, 0, 8);
+; 0004 006A 	uint8_t new_frame[8];
+; 0004 006B 	uint8_t symbol_source[8];
+; 0004 006C 	uint8_t row, column, mask = 0x80;
+; 0004 006D 	uint8_t used_mask = 0UL;
+; 0004 006E 
+; 0004 006F 
+; 0004 0070 	memset(new_frame, 0, 8);
 	SBIW R28,16
 	RCALL __SAVELOCR6
 	MOV  R21,R26
@@ -2051,48 +2133,42 @@ _Animation_Cursor:
 	MOV  R30,R28
 	SUBI R30,-(14)
 	RCALL SUBOPT_0x4
-; 0004 005E 	memcpy(symbol_source, GetSymbols(symbol), 8);
+; 0004 0071 	memcpy(symbol_source, GetSymbols(symbol), 8);
 	MOV  R30,R28
 	SUBI R30,-(6)
-	ST   -Y,R30
-	MOV  R26,R21
-	RCALL _GetSymbols
-	ST   -Y,R30
-	LDI  R26,LOW(8)
-	RCALL _memcpy
-; 0004 005F 
-; 0004 0060 	for(row = 0; row < 7; row++)
-	LDI  R17,LOW(0)
-_0x80012:
+	RCALL SUBOPT_0x7
+; 0004 0072 
+; 0004 0073 	for(row = 0; row < 7; row++)
+_0x80019:
 	CPI  R17,7
-	BRSH _0x80013
-; 0004 0061 	{
-; 0004 0062 		for(column = 0; column < 5; column++)
+	BRSH _0x8001A
+; 0004 0074 	{
+; 0004 0075 		for(column = 0; column < 5; column++)
 	LDI  R16,LOW(0)
-_0x80015:
+_0x8001C:
 	CPI  R16,5
-	BRSH _0x80016
-; 0004 0063 		{
-; 0004 0064 			memcpy(new_frame, symbol_source, row + 1);
+	BRSH _0x8001D
+; 0004 0076 		{
+; 0004 0077 			memcpy(new_frame, symbol_source, row + 1);
 	MOV  R30,R28
 	SUBI R30,-(14)
 	ST   -Y,R30
 	MOV  R30,R28
 	SUBI R30,-(7)
 	RCALL SUBOPT_0x6
-; 0004 0065 
-; 0004 0066 			if(column == 0)
+; 0004 0078 
+; 0004 0079 			if(column == 0)
 	CPI  R16,0
-	BRNE _0x80017
-; 0004 0067 			{
-; 0004 0068 				used_mask = mask;
+	BRNE _0x8001E
+; 0004 007A 			{
+; 0004 007B 				used_mask = mask;
 	MOV  R18,R19
-; 0004 0069 			}
-; 0004 006A 			else
-	RJMP _0x80018
-_0x80017:
-; 0004 006B 			{
-; 0004 006C 				used_mask += (64 / (1 << column-1));
+; 0004 007C 			}
+; 0004 007D 			else
+	RJMP _0x8001F
+_0x8001E:
+; 0004 007E 			{
+; 0004 007F 				used_mask += (64 / (1 << column-1));
 	MOV  R30,R16
 	LDI  R31,0
 	SBIW R30,1
@@ -2103,17 +2179,17 @@ _0x80017:
 	LDI  R27,HIGH(64)
 	RCALL __DIVW21U
 	ADD  R18,R30
-; 0004 006D 			}
-_0x80018:
-; 0004 006E 
-; 0004 006F 			new_frame[row] &= used_mask;
+; 0004 0080 			}
+_0x8001F:
+; 0004 0081 
+; 0004 0082 			new_frame[row] &= used_mask;
 	MOV  R26,R28
 	SUBI R26,-(14)
 	ADD  R26,R17
 	LD   R30,X
 	AND  R30,R18
 	ST   X,R30
-; 0004 0070 			new_frame[row] |= (0x80 >> column);
+; 0004 0083 			new_frame[row] |= (0x80 >> column);
 	MOV  R30,R17
 	MOV  R26,R28
 	SUBI R26,-(14)
@@ -2126,39 +2202,39 @@ _0x80018:
 	OR   R30,R1
 	MOV  R26,R20
 	ST   X,R30
-; 0004 0071 			WriteSymbol(new_frame);
+; 0004 0084 			WriteSymbol(new_frame);
 	MOV  R26,R28
 	SUBI R26,-(14)
 	RCALL _WriteSymbol
-; 0004 0072 			delay_ms(30);
+; 0004 0085 			delay_ms(30);
 	LDI  R26,LOW(30)
 	RCALL SUBOPT_0x0
-; 0004 0073 		}
+; 0004 0086 		}
 	SUBI R16,-1
-	RJMP _0x80015
-_0x80016:
-; 0004 0074 	}
+	RJMP _0x8001C
+_0x8001D:
+; 0004 0087 	}
 	SUBI R17,-1
-	RJMP _0x80012
-_0x80013:
-; 0004 0075 	WriteSymbol(symbol_source);
+	RJMP _0x80019
+_0x8001A:
+; 0004 0088 	WriteSymbol(symbol_source);
 	MOV  R26,R28
 	SUBI R26,-(6)
 	RCALL _WriteSymbol
-; 0004 0076 }
+; 0004 0089 }
 	RCALL __LOADLOCR6
 	ADIW R28,22
 	RET
 ; .FEND
 ;
 ;void Animation_SlideShow(Matrix_Symbols symbol)
-; 0004 0079 {
+; 0004 008C {
 _Animation_SlideShow:
 ; .FSTART _Animation_SlideShow
-; 0004 007A 	uint8_t symbol_source[8];
-; 0004 007B 	int8_t row;
-; 0004 007C 
-; 0004 007D 	memcpy(symbol_source, GetSymbols(symbol), 8);
+; 0004 008D 	uint8_t symbol_source[8];
+; 0004 008E 	int8_t row;
+; 0004 008F 
+; 0004 0090 	memcpy(symbol_source, GetSymbols(symbol), 8);
 	SBIW R28,8
 	RCALL __SAVELOCR2
 	MOV  R16,R26
@@ -2166,32 +2242,31 @@ _Animation_SlideShow:
 ;	symbol_source -> Y+2
 ;	row -> R17
 	RCALL SUBOPT_0x5
-; 0004 007E 
-; 0004 007F 	for(row = 7; row >= 0; row--)
-	LDI  R17,LOW(7)
-_0x8001A:
-	CPI  R17,0
-	BRLT _0x8001B
-; 0004 0080 	{
-; 0004 0081 		SendLed((row + 1), 0x00);
+; 0004 0091 
+; 0004 0092 	for(row = 0; row <= 7; row++)
+_0x80021:
+	CPI  R17,8
+	BRGE _0x80022
+; 0004 0093 	{
+; 0004 0094 		SendLed((row + 1), 0x00);
 	MOV  R30,R17
 	SUBI R30,-LOW(1)
 	RCALL SUBOPT_0x1
-; 0004 0082 		delay_ms(50);
+; 0004 0095 		delay_ms(50);
 	LDI  R26,LOW(50)
 	RCALL SUBOPT_0x0
-; 0004 0083 	}
-	SUBI R17,1
-	RJMP _0x8001A
-_0x8001B:
-; 0004 0084 
-; 0004 0085 	for(row = 0; row <= 7; row++)
-	LDI  R17,LOW(0)
-_0x8001D:
-	CPI  R17,8
-	BRGE _0x8001E
-; 0004 0086 	{
-; 0004 0087 		SendLed(row + 1, symbol_source[row]);
+; 0004 0096 	}
+	SUBI R17,-1
+	RJMP _0x80021
+_0x80022:
+; 0004 0097 
+; 0004 0098 	for(row = 7; row >= 0; row--)
+	LDI  R17,LOW(7)
+_0x80024:
+	CPI  R17,0
+	BRLT _0x80025
+; 0004 0099 	{
+; 0004 009A 		SendLed(row + 1, symbol_source[row]);
 	MOV  R30,R17
 	SUBI R30,-LOW(1)
 	ST   -Y,R30
@@ -2200,182 +2275,197 @@ _0x8001D:
 	ADD  R26,R17
 	LD   R26,X
 	RCALL _SendLed
-; 0004 0088 		delay_ms(50);
+; 0004 009B 		delay_ms(50);
 	LDI  R26,LOW(50)
 	RCALL SUBOPT_0x0
-; 0004 0089 	}
-	SUBI R17,-1
-	RJMP _0x8001D
-_0x8001E:
-; 0004 008A }
+; 0004 009C 	}
+	SUBI R17,1
+	RJMP _0x80024
+_0x80025:
+; 0004 009D }
 	RCALL __LOADLOCR2
 	ADIW R28,10
 	RET
 ; .FEND
 ;
+;//void Animation_ShiftDown(Matrix_Symbols symbol)
+;//{
+;//
+;//}
+;
 ;void Trans_Poll(void)
-; 0004 008D {
+; 0004 00A5 {
 _Trans_Poll:
 ; .FSTART _Trans_Poll
-; 0004 008E 	static Transmission_State matrix_status_new = none;
+; 0004 00A6 	static Transmission_State matrix_status_new = none;
 
 	.DSEG
 
 	.CSEG
-; 0004 008F 	static Transmission_State matrix_status = none;
+; 0004 00A7 	static Transmission_State matrix_status = none;
 
 	.DSEG
 
 	.CSEG
-; 0004 0090 	static uint8_t count_delay = 0;
-; 0004 0091 
-; 0004 0092 	matrix_status_new = Transmission_Get_EN();
+; 0004 00A8 	static uint8_t count_delay = 0;
+; 0004 00A9 
+; 0004 00AA 	matrix_status_new = Transmission_Get_EN();
 	RCALL _Transmission_Get_EN
 	STS  _matrix_status_new_S0040005000,R30
-; 0004 0093 
-; 0004 0094 	if(matrix_status != matrix_status_new)
+; 0004 00AB 
+; 0004 00AC 	if(matrix_status != matrix_status_new)
 	LDS  R26,_matrix_status_S0040005000
 	CP   R30,R26
-	BREQ _0x80021
-; 0004 0095 	{
-; 0004 0096 		count_delay++;
+	BREQ _0x80028
+; 0004 00AD 	{
+; 0004 00AE 		count_delay++;
 	LDS  R30,_count_delay_S0040005000
 	SUBI R30,-LOW(1)
 	STS  _count_delay_S0040005000,R30
-; 0004 0097 	}
-; 0004 0098 
-; 0004 0099 	if(count_delay == 6)
-_0x80021:
+; 0004 00AF 	}
+; 0004 00B0 
+; 0004 00B1 	if(count_delay == 6)
+_0x80028:
 	LDS  R26,_count_delay_S0040005000
 	CPI  R26,LOW(0x6)
-	BRNE _0x80022
-; 0004 009A 	{
-; 0004 009B 		switch(matrix_status_new)
+	BREQ PC+2
+	RJMP _0x80029
+; 0004 00B2 	{
+; 0004 00B3 		switch(matrix_status_new)
 	LDS  R30,_matrix_status_new_S0040005000
 	LDI  R31,0
-; 0004 009C 		{
-; 0004 009D 			case R:
+; 0004 00B4 		{
+; 0004 00B5 			case R:
 	SBIW R30,0
-	BRNE _0x80026
-; 0004 009E 			{
-; 0004 009F 				WriteNum(SYMBOL_EMTY);
+	BRNE _0x8002D
+; 0004 00B6 			{
+; 0004 00B7 				//memcpy(old_frame, GetSymbols(SYMBOL_R), 8);
+; 0004 00B8 				WriteNum(SYMBOL_EMTY);
 	RCALL SUBOPT_0x2
-; 0004 00A0 				delay_ms(5);
-	RCALL SUBOPT_0x7
-; 0004 00A1 				Animation_HorizRows(SYMBOL_R);
+; 0004 00B9 				delay_ms(5);
+	RCALL SUBOPT_0x9
+; 0004 00BA 				Animation_HorizRows(SYMBOL_R);
 	LDI  R26,LOW(0)
 	RCALL _Animation_HorizRows
-; 0004 00A2 				//WriteNum(SYMBOL_R);
-; 0004 00A3 				break;
-	RJMP _0x80025
-; 0004 00A4 			}
-; 0004 00A5 			case ONE:
-_0x80026:
+; 0004 00BB 				//WriteNum(SYMBOL_R);
+; 0004 00BC 				break;
+	RJMP _0x8002C
+; 0004 00BD 			}
+; 0004 00BE 			case ONE:
+_0x8002D:
 	CPI  R30,LOW(0x1)
 	LDI  R26,HIGH(0x1)
 	CPC  R31,R26
-	BRNE _0x80027
-; 0004 00A6 			{
-; 0004 00A7 				WriteNum(SYMBOL_EMTY);
+	BRNE _0x8002E
+; 0004 00BF 			{
+; 0004 00C0 				//memcpy(old_frame, GetSymbols(SYMBOL_ONE), 8);
+; 0004 00C1 				WriteNum(SYMBOL_EMTY);
 	RCALL SUBOPT_0x2
-; 0004 00A8 				delay_ms(5);
-	RCALL SUBOPT_0x7
-; 0004 00A9 				WriteNum(SYMBOL_ONE);
+; 0004 00C2 				delay_ms(5);
+	RCALL SUBOPT_0x9
+; 0004 00C3 				Animation_ProgressBar(SYMBOL_ONE);
 	LDI  R26,LOW(1)
-	RJMP _0x8002D
-; 0004 00AA 				break;
-; 0004 00AB 			}
-; 0004 00AC 			case TWO:
-_0x80027:
+	RCALL _Animation_ProgressBar
+; 0004 00C4 				//WriteNum(SYMBOL_ONE);
+; 0004 00C5 				break;
+	RJMP _0x8002C
+; 0004 00C6 			}
+; 0004 00C7 			case TWO:
+_0x8002E:
 	CPI  R30,LOW(0x2)
 	LDI  R26,HIGH(0x2)
 	CPC  R31,R26
-	BRNE _0x80028
-; 0004 00AD 			{
-; 0004 00AE 				WriteNum(SYMBOL_EMTY);
+	BRNE _0x8002F
+; 0004 00C8 			{
+; 0004 00C9 				//memcpy(old_frame, GetSymbols(SYMBOL_TWO), 8);
+; 0004 00CA 				WriteNum(SYMBOL_EMTY);
 	RCALL SUBOPT_0x2
-; 0004 00AF 				delay_ms(5);
-	RCALL SUBOPT_0x7
-; 0004 00B0 				WriteNum(SYMBOL_TWO);
+; 0004 00CB 				delay_ms(5);
+	RCALL SUBOPT_0x9
+; 0004 00CC 				WriteNum(SYMBOL_TWO);
 	LDI  R26,LOW(2)
-	RJMP _0x8002D
-; 0004 00B1 				break;
-; 0004 00B2 			}
-; 0004 00B3 			case THREE:
-_0x80028:
+	RJMP _0x80034
+; 0004 00CD 				break;
+; 0004 00CE 			}
+; 0004 00CF 			case THREE:
+_0x8002F:
 	CPI  R30,LOW(0x3)
 	LDI  R26,HIGH(0x3)
 	CPC  R31,R26
-	BRNE _0x80029
-; 0004 00B4 			{
-; 0004 00B5 				//WriteNum(SYMBOL_EMTY);
-; 0004 00B6 				delay_ms(5);
-	RCALL SUBOPT_0x7
-; 0004 00B7 				Animation_SlideShow(SYMBOL_THREE);
+	BRNE _0x80030
+; 0004 00D0 			{
+; 0004 00D1 				//memcpy(old_frame, GetSymbols(SYMBOL_THREE), 8);
+; 0004 00D2 				//WriteNum(SYMBOL_EMTY);
+; 0004 00D3 				delay_ms(5);
+	RCALL SUBOPT_0x9
+; 0004 00D4 				Animation_SlideShow(SYMBOL_THREE);
 	LDI  R26,LOW(3)
 	RCALL _Animation_SlideShow
-; 0004 00B8 				//WriteNum(SYMBOL_THREE);
-; 0004 00B9 				break;
-	RJMP _0x80025
-; 0004 00BA 			}
-; 0004 00BB 			case FOUR:
-_0x80029:
+; 0004 00D5 				//WriteNum(SYMBOL_THREE);
+; 0004 00D6 				break;
+	RJMP _0x8002C
+; 0004 00D7 			}
+; 0004 00D8 			case FOUR:
+_0x80030:
 	CPI  R30,LOW(0x4)
 	LDI  R26,HIGH(0x4)
 	CPC  R31,R26
-	BRNE _0x8002A
-; 0004 00BC 			{
-; 0004 00BD 				WriteNum(SYMBOL_EMTY);
+	BRNE _0x80031
+; 0004 00D9 			{
+; 0004 00DA 				//memcpy(old_frame, GetSymbols(SYMBOL_FOUR), 8);
+; 0004 00DB 				WriteNum(SYMBOL_EMTY);
 	RCALL SUBOPT_0x2
-; 0004 00BE 				delay_ms(5);
-	RCALL SUBOPT_0x7
-; 0004 00BF 				WriteNum(SYMBOL_FOUR);
+; 0004 00DC 				delay_ms(5);
+	RCALL SUBOPT_0x9
+; 0004 00DD 				WriteNum(SYMBOL_FOUR);
 	LDI  R26,LOW(4)
-	RJMP _0x8002D
-; 0004 00C0 				break;
-; 0004 00C1 			}
-; 0004 00C2 			case FIVE:
-_0x8002A:
+	RJMP _0x80034
+; 0004 00DE 				break;
+; 0004 00DF 			}
+; 0004 00E0 			case FIVE:
+_0x80031:
 	CPI  R30,LOW(0x5)
 	LDI  R26,HIGH(0x5)
 	CPC  R31,R26
-	BRNE _0x8002C
-; 0004 00C3 			{
-; 0004 00C4 				WriteNum(SYMBOL_EMTY);
+	BRNE _0x80033
+; 0004 00E1 			{
+; 0004 00E2 				//memcpy(old_frame, GetSymbols(SYMBOL_FIVE), 8);
+; 0004 00E3 				WriteNum(SYMBOL_EMTY);
 	RCALL SUBOPT_0x2
-; 0004 00C5 				delay_ms(5);
-	RCALL SUBOPT_0x7
-; 0004 00C6 				Animation_Cursor(SYMBOL_FIVE);
+; 0004 00E4 				delay_ms(5);
+	RCALL SUBOPT_0x9
+; 0004 00E5 				Animation_Cursor(SYMBOL_FIVE);
 	LDI  R26,LOW(5)
 	RCALL _Animation_Cursor
-; 0004 00C7 				//WriteNum(SYMBOL_FIVE);
-; 0004 00C8 				break;
-	RJMP _0x80025
-; 0004 00C9 			}
-; 0004 00CA 			default:
-_0x8002C:
-; 0004 00CB 			{
-; 0004 00CC 				WriteNum(SYMBOL_EMTY);
+; 0004 00E6 				//WriteNum(SYMBOL_FIVE);
+; 0004 00E7 				break;
+	RJMP _0x8002C
+; 0004 00E8 			}
+; 0004 00E9 			default:
+_0x80033:
+; 0004 00EA 			{
+; 0004 00EB 				//memcpy(old_frame, GetSymbols(SYMBOL_N), 8);
+; 0004 00EC 				WriteNum(SYMBOL_EMTY);
 	RCALL SUBOPT_0x2
-; 0004 00CD 				delay_ms(5);
-	RCALL SUBOPT_0x7
-; 0004 00CE 				WriteNum(SYMBOL_N);
+; 0004 00ED 				delay_ms(5);
+	RCALL SUBOPT_0x9
+; 0004 00EE 				WriteNum(SYMBOL_N);
 	LDI  R26,LOW(6)
-_0x8002D:
+_0x80034:
 	RCALL _WriteNum
-; 0004 00CF 				break;
-; 0004 00D0 			}
-; 0004 00D1 		}
-_0x80025:
-; 0004 00D2 		count_delay = 0;
+; 0004 00EF 				break;
+; 0004 00F0 			}
+; 0004 00F1 		}
+_0x8002C:
+; 0004 00F2 		count_delay = 0;
 	LDI  R30,LOW(0)
 	STS  _count_delay_S0040005000,R30
-; 0004 00D3 		matrix_status = matrix_status_new;
+; 0004 00F3 		matrix_status = matrix_status_new;
 	LDS  R30,_matrix_status_new_S0040005000
 	STS  _matrix_status_S0040005000,R30
-; 0004 00D4 	}
-; 0004 00D5 }
-_0x80022:
+; 0004 00F4 	}
+; 0004 00F5 }
+_0x80029:
 	RET
 ; .FEND
 ;
@@ -2450,7 +2540,7 @@ _count_delay_S0040005000:
 	.BYTE 0x1
 
 	.CSEG
-;OPTIMIZER ADDED SUBROUTINE, CALLED 12 TIMES, CODE SIZE REDUCTION:9 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 13 TIMES, CODE SIZE REDUCTION:10 WORDS
 SUBOPT_0x0:
 	LDI  R27,0
 	RJMP _delay_ms
@@ -2484,7 +2574,7 @@ SUBOPT_0x4:
 	LDI  R26,LOW(8)
 	RJMP _memset
 
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:5 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:6 WORDS
 SUBOPT_0x5:
 	MOV  R30,R28
 	SUBI R30,-(2)
@@ -2493,7 +2583,9 @@ SUBOPT_0x5:
 	RCALL _GetSymbols
 	ST   -Y,R30
 	LDI  R26,LOW(8)
-	RJMP _memcpy
+	RCALL _memcpy
+	LDI  R17,LOW(0)
+	RET
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
 SUBOPT_0x6:
@@ -2502,8 +2594,27 @@ SUBOPT_0x6:
 	SUBI R26,-LOW(1)
 	RJMP _memcpy
 
-;OPTIMIZER ADDED SUBROUTINE, CALLED 7 TIMES, CODE SIZE REDUCTION:4 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:4 WORDS
 SUBOPT_0x7:
+	ST   -Y,R30
+	MOV  R26,R21
+	RCALL _GetSymbols
+	ST   -Y,R30
+	LDI  R26,LOW(8)
+	RCALL _memcpy
+	LDI  R17,LOW(0)
+	RET
+
+;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+SUBOPT_0x8:
+	MOV  R26,R28
+	SUBI R26,-(6)
+	ADD  R26,R16
+	LD   R30,X
+	RET
+
+;OPTIMIZER ADDED SUBROUTINE, CALLED 7 TIMES, CODE SIZE REDUCTION:4 WORDS
+SUBOPT_0x9:
 	LDI  R26,LOW(5)
 	RJMP SUBOPT_0x0
 
@@ -2534,6 +2645,19 @@ __LOADLOCR3:
 __LOADLOCR2:
 	LDD  R17,Y+1
 	LD   R16,Y
+	RET
+
+__INITLOCB:
+__INITLOCW:
+	PUSH R26
+	MOV  R26,R22
+	ADD  R26,R28
+__INITLOC0:
+	LPM  R0,Z+
+	ST   X+,R0
+	DEC  R24
+	BRNE __INITLOC0
+	POP  R26
 	RET
 
 __LSLB12:

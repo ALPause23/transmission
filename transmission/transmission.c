@@ -23,6 +23,8 @@ typedef enum
 	
 }Transmission_State;
 
+//static uint8_t old_frame[8];
+
 //bool Get_State_Transmision(uint8_t num_trans)
 //{
 	//return GPIO_Read_Bits(PD, num_trans);
@@ -65,21 +67,38 @@ void Animation_HorizRows(Matrix_Symbols symbol)
 	{
 		memcpy(new_frame, symbol_source, i + 1);
 		WriteSymbol(new_frame);
-		delay_ms(50);
+		delay_ms(80);
 	}
 }
 
 void Animation_ProgressBar(Matrix_Symbols symbol)
 {
-	uint8_t new_frame[8];
 	uint8_t symbol_source[8];
-
+	uint8_t cycle, i;
+	
+	
+	uint8_t data_send = 0;
+	uint8_t addr_t = 0;
+	
+	uint8_t route[12] = {0x06, 0x05, 0x04, 0x13, 0x23, 0x33, 0x44, 0x45, 0x46, 0x37, 0x27, 0x17};
 	
 	memcpy(symbol_source, GetSymbols(symbol), 8);
+		
+	for (cycle = 0; cycle < 10; cycle++ )
+	{
+		for(i = 0; i < 12; i++)
+		{
+			addr_t = (route[i] >> 4) + 1;
+			data_send = 1 << (route[i] & 0x0F);
+			SendLed(addr_t, data_send);
+			delay_ms(50);
+			SendLed(addr_t, 0x00);
+		}
+	}
+		
 	
 	
-	
-	WriteSymbol(new_frame);
+	WriteSymbol(symbol_source);
 }
 
 void Animation_Cursor(Matrix_Symbols symbol)
@@ -124,18 +143,23 @@ void Animation_SlideShow(Matrix_Symbols symbol)
 	
 	memcpy(symbol_source, GetSymbols(symbol), 8);
 	
-	for(row = 7; row >= 0; row--)
+	for(row = 0; row <= 7; row++)
 	{
 		SendLed((row + 1), 0x00);
 		delay_ms(50);
 	}
 		
-	for(row = 0; row <= 7; row++)
+	for(row = 7; row >= 0; row--)
 	{
 		SendLed(row + 1, symbol_source[row]);
 		delay_ms(50);
 	}
 }
+
+//void Animation_ShiftDown(Matrix_Symbols symbol)
+//{
+//
+//}
 
 void Trans_Poll(void)
 {
@@ -156,6 +180,7 @@ void Trans_Poll(void)
 		{
 			case R:
 			{
+				//memcpy(old_frame, GetSymbols(SYMBOL_R), 8);
 				WriteNum(SYMBOL_EMTY);
 				delay_ms(5);
 				Animation_HorizRows(SYMBOL_R);
@@ -164,13 +189,16 @@ void Trans_Poll(void)
 			}
 			case ONE:
 			{
+				//memcpy(old_frame, GetSymbols(SYMBOL_ONE), 8);
 				WriteNum(SYMBOL_EMTY);
 				delay_ms(5);
-				WriteNum(SYMBOL_ONE);
+				Animation_ProgressBar(SYMBOL_ONE);
+				//WriteNum(SYMBOL_ONE);
 				break;
 			}
 			case TWO:
 			{
+				//memcpy(old_frame, GetSymbols(SYMBOL_TWO), 8);
 				WriteNum(SYMBOL_EMTY);
 				delay_ms(5);
 				WriteNum(SYMBOL_TWO);
@@ -178,6 +206,7 @@ void Trans_Poll(void)
 			}
 			case THREE:
 			{
+				//memcpy(old_frame, GetSymbols(SYMBOL_THREE), 8);
 				//WriteNum(SYMBOL_EMTY);
 				delay_ms(5);
 				Animation_SlideShow(SYMBOL_THREE);
@@ -186,6 +215,7 @@ void Trans_Poll(void)
 			}
 			case FOUR:
 			{
+				//memcpy(old_frame, GetSymbols(SYMBOL_FOUR), 8);
 				WriteNum(SYMBOL_EMTY);
 				delay_ms(5);
 				WriteNum(SYMBOL_FOUR);
@@ -193,6 +223,7 @@ void Trans_Poll(void)
 			}
 			case FIVE:
 			{
+				//memcpy(old_frame, GetSymbols(SYMBOL_FIVE), 8);
 				WriteNum(SYMBOL_EMTY);
 				delay_ms(5);
 				Animation_Cursor(SYMBOL_FIVE);
@@ -201,6 +232,7 @@ void Trans_Poll(void)
 			}
 			default:
 			{
+				//memcpy(old_frame, GetSymbols(SYMBOL_N), 8);
 				WriteNum(SYMBOL_EMTY);
 				delay_ms(5);
 				WriteNum(SYMBOL_N);
